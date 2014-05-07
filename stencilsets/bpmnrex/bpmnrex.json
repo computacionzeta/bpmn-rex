@@ -1,0 +1,194 @@
+{
+	"title":"BPMN Rex",
+	"namespace":"http://b3mn.org/stencilset/bpmnrex#",
+	"description":"Simple stencil set for Let's dance diagrams.",
+	"stencils": [
+		{
+			"type":			"node",
+			"id":			"Diagram",
+			"title":		"Diagram",	
+			"groups":		["Diagram"],
+			"description":	"Resource Structure Diagram",
+			"view":			"node.diagram.svg",
+			"icon":			"node.diagram.png",
+			"roles":		[]
+		},
+		{
+			"type":			"node",
+			"id":			"resourceClassifier",
+			"title":		"Resource Classifier",	
+			"groups":		["Classification"],
+			"description":	"Classification of a resource within an organization.",
+			"view":			"node.resourceClassifier.svg",
+			"icon":			"node.resourceClassifier.png",
+			"roles":		["classification"],
+			"properties": [
+				{
+					"id":		"name",
+					"type":		"String",
+					"title":	"Name",
+					"value":	"NewClassifier",
+					"description":"",
+					"readonly":	false,
+					"optional":	false,
+					"length":	"",
+					"refToView":"nameText",
+					"wrapLines":false
+				}
+			]
+		},
+		{
+			"type":			"node",
+			"id":			"resourceParameter",
+			"title":		"Resource Parameter",	
+			"groups":		["Characterization"],
+			"description":	"",
+			"view":			"node.resourceParameter.svg",
+			"icon":			"node.resourceParameter.png",
+			"roles":		["characterization"],
+			"properties": [
+				{
+					"id":	"name",
+					"type":	"String",
+					"title":"Name",
+					"value":"newParameter",
+					"description":"",
+					"readonly":false,
+					"optional":false,
+					"length":"",
+					"refToView":"nameText",
+					"wrapLines":false
+				},
+				{
+					"id":		"type",
+					"type":		"String",
+					"title":	"Type",
+					"value":	"String",
+					"description":"",
+					"readonly":	false,
+					"optional":	false,
+					"length":	"",
+					"wrapLines":false
+				}
+			]
+		},
+		{
+			"type":			"node",
+			"id":			"resourcePrivilege",
+			"title":		"Resource Privilege",	
+			"groups":		["Characterization"],
+			"description":	"",
+			"view":			"node.resourcePrivilege.svg",
+			"icon":			"node.resourcePrivilege.png",
+			"roles":		["characterization"],
+			"properties": [
+				{
+					"id":	"name",
+					"type":	"String",
+					"title":"Name",
+					"value":"newPrivilege",
+					"description":"",
+					"readonly":false,
+					"optional":false,
+					"length":"",
+					"refToView":"nameText",
+					"wrapLines":false
+				}
+			]
+		},
+		{
+			"type":			"node",
+			"id":			"humanResource",
+			"title":		"Human Resource",	
+			"groups":		["Classification"],
+			"description":	"Representation of a resource within an organization.",
+			"view":			"node.humanResource.svg",
+			"icon":			"node.humanResource.png",
+			"roles":		["classification"],
+			"properties": [
+				{
+					"id":		"name",
+					"type":		"String",
+					"title":	"Name",
+					"value":	"NewHumanResource",
+					"description":"",
+					"readonly":	false,
+					"optional":	false,
+					"length":	"",
+					"refToView":"nameText",
+					"wrapLines":false
+				}
+			]
+		},
+		{
+			"type":			"edge",
+			"id":			"resourceReference",
+			"title":		"Resource Reference",	
+			"groups":		["Relationship"],
+			"description":	"A reference from a Resource Classifier to another Resource Classifier",
+			"view":			"edge.resourceReference.svg",
+			"icon":			"edge.resourceReference.png",
+			"roles":		["classifierRelationship"]
+		},
+		{
+			"type":			"edge",
+			"id":			"subsumption",
+			"title":		"Subsumption",	
+			"groups":		["Relationship"],
+			"description":	"A subsumption relationship between two classifiers",
+			"view":			"edge.subsumption.svg",
+			"icon":			"edge.subsumption.png",
+			"roles":		["classifierRelationship"]
+		},
+		{
+			"type":			"edge",
+			"id":			"resourceClassification",
+			"title":		"Resource Classification",	
+			"groups":		["Relationship"],
+			"description":	"A classification of a Human Resource",
+			"view":			"edge.resourceClassification.svg",
+			"icon":			"edge.resourceClassification.png",
+			"roles":		["mixedRelationship"]
+		}
+	],
+	"rules":{
+		"connectionRules": [
+			{
+				"role": 	"classifierRelationship",
+				"connects": [
+					{
+						"from": "resourceClassifier",
+						"to":	"resourceClassifier"
+					}
+				],
+			},
+			{
+				"role": 	"mixedRelationship",
+				"connects": [
+					{
+						"from": "humanResource",
+						"to":	"resourceClassifier"
+					}
+				],
+			}
+		],
+		"containmentRules":	[
+			{
+				"role":		"Diagram",
+				"contains": [
+							"classification",
+							"classifierRelationship",
+							"mixedRelationship"
+				]
+			},
+			{
+				"role":		"classification",
+				"contains": [
+							"resourceParameter",
+							"resourcePrivilege"
+				]
+			}
+		]
+		
+	}
+}
