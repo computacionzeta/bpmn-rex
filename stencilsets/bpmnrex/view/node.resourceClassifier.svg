@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:oryx="http://www.b3mn.org/oryx"
+   version="1.0">
+  <oryx:magnets>
+  	<oryx:magnet oryx:cx="150" oryx:cy="0" oryx:default="yes"/>
+  	<oryx:magnet oryx:cx="150" oryx:cy="150"/>
+  	<oryx:magnet oryx:cx="300" oryx:cy="75"/>
+  	<oryx:magnet oryx:cx="0" oryx:cy="75"/>
+  </oryx:magnets>
+  <g>
+	<rect
+       id="nameBorder"
+       oryx:anchors="top left right"
+       oryx:resize="horizontal"
+       width="300"
+       height="32"
+       x="0" y="-32"
+       stroke="black" fill="white" stroke-width="1" />
+    <rect
+       id="border"
+       oryx:anchors="top bottom left right"
+       oryx:resize="vertical horizontal"
+       width="300"
+       height="150"
+       x="0" y="0"
+       stroke="black" fill="white" stroke-width="1" /> 
+	
+	<text 
+	   oryx:anchors="top left right"
+	   oryx:resize="horizontal"
+	   id="nameText" x="30" y="-24" oryx:align="middle left"></text> 
+	<text 
+	   oryx:anchors="top left right"
+	   oryx:resize="horizontal"
+	   id="definitionText" x="30" y="-8" oryx:align="bottom left"></text> 
+	
+	<text 
+	   oryx:anchors="top left right"
+	   oryx:resize="horizontal"
+	   id="descriptionText" x="5" y="5" oryx:align="top left"></text> 
+	
+	<line 
+		oryx:anchors="top left right"
+	    oryx:resize="horizontal"
+		x1="0" y1="40" x2="300" y2="40" style="stroke:rgb(0,0,0);stroke-width:1" />
+	
+	<text 
+	   oryx:anchors="top bottom left right"
+	   oryx:resize="horizontal vertical"
+	   id="parametersText" x="5" y="45" oryx:align="top left"></text> 
+	   
+	<line 
+		oryx:anchors="bottom left right"
+	    oryx:resize="horizontal"
+		x1="0" y1="100" x2="300" y2="100" style="stroke:rgb(0,0,0);stroke-width:1" />
+	   
+	<text 
+	   oryx:anchors="bottom left right"
+	   oryx:resize="horizontal vertical"
+	   id="privilegesText" x="5" y="135" oryx:align="top left"></text> 
+	
+	<g oryx:minimumSize="50 40">
+		<path oryx:anchors="top left"
+		   d="m 3,-24 c 0,-0.035 0.033,-0.144 0.033,-0.25 l 0.284,-1.316 c 0.073,-0.106 0.11,-0.25 0.142,-0.391 l 0.712,-1.066 0.358,-0.356 1.065,-0.711 c 0.142,-0.035 0.285,-0.07 0.39,-0.14 l 1.318,-0.285 c 0.105,0 0.211,-0.036 0.248,-0.036 l 15.182,0 c 0.105,0 0.174,0.036 0.248,0.036 l 1.313,0.285 c 0.142,0.07 0.284,0.105 0.427,0.14 l 1.102,0.711 c 0.073,0.106 0.215,0.25 0.321,0.356 l 0.711,1.066 c 0.037,0.141 0.106,0.285 0.143,0.391 l 0.284,1.316 0,0.25 0,13.653 0,0.246 -0.284,1.316 c -0.037,0.145 -0.106,0.285 -0.143,0.426 l -0.711,1.105 -0.321,0.317 -1.102,0.711 c -0.143,0.074 -0.285,0.109 -0.427,0.144 l -1.313,0.285 -0.248,0 -15.182,0 -0.248,0 -1.318,-0.285 c -0.105,-0.035 -0.248,-0.07 -0.39,-0.144 l -1.065,-0.711 c -0.11,-0.071 -0.252,-0.211 -0.358,-0.317 l -0.712,-1.105 c -0.032,-0.141 -0.069,-0.281 -0.142,-0.426 l -0.284,-1.316 c 0,-0.036 -0.033,-0.141 -0.033,-0.246 l 0,-13.653 z m 2.273,13.653 0,-0.215 0.284,1.316 -0.142,-0.391 0.712,1.102 -0.322,-0.32 1.07,0.711 -0.427,-0.141 1.35,0.281 -0.248,-0.07 15.182,0 -0.248,0.07 1.349,-0.281 -0.39,0.141 1.102,-0.711 -0.358,0.32 0.712,-1.102 -0.143,0.391 0.285,-1.316 -0.037,0.215 0,-13.653 0.037,0.246 -0.285,-1.347 0.143,0.425 -0.712,-1.066 0.358,0.32 -1.102,-0.711 0.39,0.141 -1.349,-0.285 0.248,0 -15.182,0 0.248,0 -1.35,0.285 0.427,-0.141 -1.07,0.711 0.322,-0.32 -0.712,1.066 0.142,-0.425 -0.284,1.347 0,-0.246 0,13.653 z"
+		   style="fill:#4bacc6;fill-opacity:1;fill-rule:evenodd;stroke:#4bacc6;stroke-width:0.0355531;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none"
+		   id="path406" 
+		   />
+		   
+		<path oryx:anchors="top left"
+		   d="m 11,-17 c 0,-1.563 2.054,-2.863 4.539,-2.863 l 0,0 c 2.519,0 4.543,1.3 4.543,2.863 l 0,0 0,0 c 0,1.594 -2.024,2.863 -4.543,2.863 l 0,0 0,0 c -2.485,0 -4.539,-1.269 -4.539,-2.863 l 0,0 z"
+		   style="fill:#4f81bd;fill-opacity:1;fill-rule:evenodd;stroke:#000000;stroke-width:0.52924699;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none"
+		   id="path382" />
+  
+		<path oryx:anchors="top left"
+		   d="m 12, -22 c 0,-1.434 1.168,-2.602 2.551,-2.602 l 0,0 0,0 c 1.421,0 2.554,1.168 2.554,2.602 l 0,0 0,0 c 0,1.461 -1.133,2.598 -2.554,2.598 l 0,0 0,0 c -1.383,0 -2.551,-1.137 -2.551,-2.598 l 0,0 z"
+		   style="fill:#4f81bd;fill-opacity:1;fill-rule:evenodd;stroke:#000000;stroke-width:0.52924699;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none"
+		   id="path386" />
+		<path oryx:anchors="top left"
+		   d="m 6,-12 c 0,-1.559 2.055,-2.859 4.539,-2.859 l 0,0 c 2.52,0 4.543,1.3 4.543,2.859 l 0,0 0,0 c 0,1.594 -2.023,2.863 -4.543,2.863 l 0,0 0,0 c -2.484,0 -4.539,-1.269 -4.539,-2.863 l 0,0 z"
+		   style="fill:#4f81bd;fill-opacity:1;fill-rule:evenodd;stroke:#000000;stroke-width:0.52924699;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none"
+		   id="path390" />
+		<path oryx:anchors="top left"
+		   d="m 9,-17  c 0,-1.433 1.168,-2.601 2.551,-2.601 l 0,0 0,0 c 1.422,0 2.555,1.168 2.555,2.601 l 0,0 0,0 c 0,1.461 -1.133,2.602 -2.555,2.602 l 0,0 0,0 c -1.383,0 -2.551,-1.141 -2.551,-2.602 l 0,0 z"
+		   style="fill:#4f81bd;fill-opacity:1;fill-rule:evenodd;stroke:#000000;stroke-width:0.52924699;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none"
+		   id="path394" />
+
+		<path oryx:anchors="top left"
+		   d="m 15,-12 c 0,-1.559 2.058,-2.859 4.539,-2.859 l 0,0 c 2.519,0 4.543,1.3 4.543,2.859 l 0,0 0,0 c 0,1.594 -2.024,2.863 -4.543,2.863 l 0,0 0,0 c -2.481,0 -4.539,-1.269 -4.539,-2.863 l 0,0 z"
+		   style="fill:#4f81bd;fill-opacity:1;fill-rule:evenodd;stroke:#000000;stroke-width:0.52924699;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none"
+		   id="path398" />
+	 
+		<path oryx:anchors="top left"
+		   d="m 17,-18 c 0,-1.433 1.172,-2.601 2.555,-2.601 l 0,0 0,0 c 1.418,0 2.554,1.168 2.554,2.601 l 0,0 0,0 c 0,1.461 -1.136,2.602 -2.554,2.602 l 0,0 0,0 c -1.383,0 -2.555,-1.141 -2.555,-2.602 l 0,0 z"
+		   style="fill:#4f81bd;fill-opacity:1;fill-rule:evenodd;stroke:#000000;stroke-width:0.52924699;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none"
+		   id="path402" />
+  	</g>   
+		
+  </g>
+</svg>

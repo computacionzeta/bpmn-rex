@@ -1,0 +1,721 @@
+{
+	"title":"RPIM",
+	"namespace":"http://b3mn.org/stencilset/rpim#",
+	"description":"Resource Perspective Implementation Model.",
+	"propertyPackages": [
+		{
+ 			"name":"ResourceImpl",
+ 			"properties": [
+				{
+					"id":"name",
+					"type":"String",
+					"title":"Name",
+					"value":"",
+					"description":"The descriptive name of the Resource element.",
+					"readonly":false,
+					"optional":false,
+					"length":"",
+					"wrapLines" : true,
+					"refToView":"text_name"	
+				},
+				{
+					"id":"hasParameters",
+					"type":"Choice",
+					"title":"Has Parameters",
+					"value":"",
+					"description":"Indicates whether the element can define resource parameters or not.",
+					"readonly":false,
+					"optional":false,
+					"length":"",
+					"wrapLines":false,
+					"refToView":"text_parameters",
+					"items":[
+						{
+							"id":"c1",
+							"title":"true",
+							"value":"true"
+						},
+						{
+							"id":"c2",
+							"title":"false",
+							"value":"false"
+						}
+					]
+				},
+				{
+					"id":"hasPrivileges",
+					"type":"Choice",
+					"title":"Has Privileges",
+					"value":"",
+					"description":"Indicates whether the element can define resource privileges or not.",
+					"readonly":false,
+					"optional":false,
+					"length":"",
+					"wrapLines":false,
+					"refToView":"text_privileges",	
+					"items":[
+						{
+							"id":"c1",
+							"title":"true",
+							"value":"true"
+						},
+						{
+							"id":"c2",
+							"title":"false",
+							"value":"false"
+						}
+					]
+				},
+				{
+					"id":"isReferenceable",
+					"type":"Choice",
+					"title":"Is Referenceable",
+					"value":"",
+					"description":"Indicates if the element can be target of a resource reference of a BPMN resource parameter binding.",
+					"readonly":false,
+					"optional":false,
+					"length":"",
+					"wrapLines":false,
+					"refToView":"text_referenceable",
+					"items":[
+						{
+							"id":"c1",
+							"title":"true",
+							"value":"true"
+						},
+						{
+							"id":"c2",
+							"title":"false",
+							"value":"false"
+						}
+					]
+				},
+				{
+					"id":"isBindable",
+					"type":"Choice",
+					"title":"Is Bindable",
+					"value":"",
+					"description":"Indicates if the element can be target of a BPMN resource parameter binding.",
+					"readonly":false,
+					"optional":false,
+					"length":"",
+					"wrapLines":false,
+					"refToView":"text_bindable",
+					"items":[
+						{
+							"id":"c1",
+							"title":"true",
+							"value":"true"
+						},
+						{
+							"id":"c2",
+							"title":"false",
+							"value":"false"
+						}
+					]
+				},
+				{
+					"id":"bindingType",
+					"type":"Choice",
+					"title":"Binding Type",
+					"value":"Literal",
+					"description":"Indicates if the element can be bound against an expression or a literal value.",
+					"readonly":false,
+					"optional":true,
+					"length":"",
+					"wrapLines":false,
+					"refToView":"text_type",	
+					"items":[
+						{
+							"id":"c1",
+							"title":"None",
+							"value":"None"
+						},
+						{
+							"id":"c2",
+							"title":"Literal",
+							"value":"Literal"
+						},
+						{
+							"id":"c3",
+							"title":"Expression",
+							"value":"Expression"
+						}
+					]
+				},
+				{
+					"id":"description",
+					"type":"String",
+					"title":"Description",
+					"value":"",
+					"description":"Natural language description of the defined resource element's meaning.",
+					"readonly":false,
+					"optional":true,
+					"length":"",
+					"wrapLines":true,
+					"refToView":"text_description"	
+				}
+ 			]
+ 		},
+		{
+ 			"name":"ValuedParameter",
+ 			"properties": [
+				{
+					"id":"name",
+					"type":"String",
+					"title":"Name",
+					"value":"",
+					"description":"The descriptive name of the Resource element.",
+					"readonly":false,
+					"optional":false,
+					"length":"",
+					"wrapLines" : true,
+					"refToView":"text_name"	
+				},
+				{
+					"id":"bindingType",
+					"type":"Choice",
+					"title":"Binding Type",
+					"value":"Literal",
+					"description":"Indicates if the element can be bound against an expression or a literal value.",
+					"readonly":false,
+					"optional":true,
+					"length":"",
+					"wrapLines":false,
+					"refToView":"text_type",	
+					"items":[
+						{
+							"id":"c1",
+							"title":"None",
+							"value":"None"
+						},
+						{
+							"id":"c2",
+							"title":"Literal",
+							"value":"Literal"
+						},
+						{
+							"id":"c3",
+							"title":"Expression",
+							"value":"Expression"
+						}
+					]
+				},
+				{
+					"id":"description",
+					"type":"String",
+					"title":"Description",
+					"value":"",
+					"description":"Natural language description of the defined resource element's meaning.",
+					"readonly":false,
+					"optional":true,
+					"length":"",
+					"wrapLines":true,
+					"refToView":"text_description"	
+				}
+ 			]
+ 		},
+		{
+ 			"name":"PrivilegeImpl",
+ 			"properties": [
+				{
+					"id":"name",
+					"type":"String",
+					"title":"Name",
+					"value":"",
+					"description":"The descriptive name of the Resource element.",
+					"readonly":false,
+					"optional":false,
+					"length":"",
+					"wrapLines" : true,
+					"refToView":"text_name"	
+				},
+				{
+					"id":"description",
+					"type":"String",
+					"title":"Description",
+					"value":"",
+					"description":"Natural language description of the defined resource element's meaning.",
+					"readonly":false,
+					"optional":true,
+					"length":"",
+					"wrapLines":true,
+					"refToView":"text_description"	
+				}
+ 			]
+ 		},
+		{
+ 			"name":"Constraint",
+ 			"properties": [
+				{
+					"id":"name",
+					"type":"String",
+					"title":"Name",
+					"value":"",
+					"description":"The descriptive name of the Resource element.",
+					"readonly":false,
+					"optional":false,
+					"length":"",
+					"wrapLines" : true,
+					"refToView":"text_name"	
+				},
+				{
+					"id":"hasExpression",
+					"type":"Choice",
+					"title":"Has Expression",
+					"value":"",
+					"description":"Indicates if the element can be target of a BPMN resource parameter binding.",
+					"readonly":false,
+					"optional":false,
+					"length":"",
+					"wrapLines":false,
+					"refToView":"text_expression",
+					"items":[
+						{
+							"id":"c1",
+							"title":"true",
+							"value":"true"
+						},
+						{
+							"id":"c2",
+							"title":"false",
+							"value":"false"
+						}
+					]
+				},
+				{
+					"id":"description",
+					"type":"String",
+					"title":"Description",
+					"value":"",
+					"description":"Natural language description of the defined resource element's meaning.",
+					"readonly":false,
+					"optional":true,
+					"length":"",
+					"wrapLines":true,
+					"refToView":"text_description"	
+				}
+ 			]
+ 		},
+		{
+ 			"name":"Relationship",
+ 			"properties": [
+				{
+					"id":"name",
+					"type":"String",
+					"title":"Name",
+					"value":"",
+					"description":"The descriptive name of the Resource element.",
+					"readonly":false,
+					"optional":false,
+					"length":"",
+					"wrapLines" : true,
+					"refToView":"text_name"	
+				},
+				{
+					"id":"lower",
+					"type":"String",
+					"title":"Lower",
+					"value":"0",
+					"description":"Minimum cardinality.",
+					"readonly":false,
+					"optional":false,
+					"length":"",
+					"wrapLines":false,
+					"refToView":"text_lower"
+				},
+				{
+					"id":"upper",
+					"type":"String",
+					"title":"Upper",
+					"value":"*",
+					"description":"Maximum cardinality.",
+					"readonly":false,
+					"optional":false,
+					"length":"",
+					"wrapLines":false,
+					"refToView":"text_upper"
+				},
+				{
+					"id":"description",
+					"type":"String",
+					"title":"Description",
+					"value":"",
+					"description":"Natural language description of the defined resource element's meaning.",
+					"readonly":false,
+					"optional":true,
+					"length":"",
+					"wrapLines":true,
+					"refToView":"text_description"	
+				}
+ 			]
+ 		},
+		{
+ 			"name":"Role",
+ 			"properties": [
+				{
+					"id":"name",
+					"type":"String",
+					"title":"Name",
+					"value":"",
+					"description":"The descriptive name of the Role element.",
+					"readonly":false,
+					"optional":false,
+					"length":"",
+					"wrapLines" : true,
+					"refToView":"text_name"	
+				},
+				{
+					"id":"required",
+					"type":"Choice",
+					"title":"Required",
+					"value":"",
+					"description":"Indicates whether people assignments must be defined for the role or not.",
+					"readonly":false,
+					"optional":false,
+					"length":"",
+					"wrapLines":false,
+					"refToView":"text_required",
+					"items":[
+						{
+							"id":"c1",
+							"title":"true",
+							"value":"true"
+						},
+						{
+							"id":"c2",
+							"title":"false",
+							"value":"false"
+						}
+					]
+				},
+				{
+					"id":"singlePerformer",
+					"type":"Choice",
+					"title":"Single Performer",
+					"value":"",
+					"description":"Indicates whether the role has to be performed by a single resource or not",
+					"readonly":false,
+					"optional":false,
+					"length":"",
+					"wrapLines":false,
+					"refToView":"text_single",	
+					"items":[
+						{
+							"id":"c1",
+							"title":"true",
+							"value":"true"
+						},
+						{
+							"id":"c2",
+							"title":"false",
+							"value":"false"
+						}
+					]
+				},
+				{
+					"id":"description",
+					"type":"String",
+					"title":"Description",
+					"value":"",
+					"description":"Natural language description of the defined resource element's meaning.",
+					"readonly":false,
+					"optional":true,
+					"length":"",
+					"wrapLines":true,
+					"refToView":"text_description"	
+				}
+ 			]
+ 		},
+		{
+ 			"name":"Transformation",
+ 			"properties": [
+				{
+					"id":"name",
+					"type":"String",
+					"title":"Name",
+					"value":"",
+					"description":"The descriptive name of the Role element.",
+					"readonly":false,
+					"optional":false,
+					"length":"",
+					"wrapLines" : true,
+					"refToView":"text_name"	
+				},
+				{
+					"id":"namespace",
+					"type":"String",
+					"title":"Namespace",
+					"value":"",
+					"description":"The transformation's namespace.",
+					"readonly":false,
+					"optional":false,
+					"length":"",
+					"wrapLines" : false,
+					"refToView":"text_namespace"	
+				},
+				{
+					"id":"inputType",
+					"type":"Choice",
+					"title":"Input Type",
+					"value":"",
+					"description":"Indicates if the transformation's input is an RSM or an EPM.",
+					"readonly":false,
+					"optional":false,
+					"length":"",
+					"wrapLines":false,
+					"refToView":"text_input",
+					"items":[
+						{
+							"id":"c1",
+							"title":"RSM",
+							"value":"RSM"
+						},
+						{
+							"id":"c2",
+							"title":"EPM",
+							"value":"EPM"
+						}
+					]
+				},
+				{
+					"id":"description",
+					"type":"String",
+					"title":"Description",
+					"value":"",
+					"description":"Natural language description of the defined resource element's meaning.",
+					"readonly":false,
+					"optional":true,
+					"length":"",
+					"wrapLines":true,
+					"refToView":"text_description"	
+				}
+ 			]
+ 		}
+	],
+	"stencils": [
+		{
+			"type":			"node",
+			"id":			"Diagram",
+			"title":		"Diagram",	
+			"groups":		["Diagram"],
+			"description":	"Implementation Definition Model",
+			"view":			"node.diagram.svg",
+			"icon":			"node.diagram.png",
+			"roles":		[]
+		},
+		{
+			"type":			"node",
+			"id":			"resourceClassifierImpl",
+			"title":		"Resource Classifier Implementation ",	
+			"groups":		["Resource Element"],
+			"description":	"Classification of a resource within an organization.",
+			"view":			"node.resourceClassifierImpl.svg",
+			"icon":			"node.resourceClassifierImpl.png",
+			"roles":		["ResourceImpl"],
+			"propertyPackages" : ["ResourceImpl"],
+			"properties": []
+		},
+		{
+			"type":			"node",
+			"id":			"humanResourceImpl",
+			"title":		"Human Resource Implementation ",	
+			"groups":		["Resource Element"],
+			"description":	"Entity representing a human resource.",
+			"view":			"node.humanResourceImpl.svg",
+			"icon":			"node.humanResourceImpl.png",
+			"roles":		["ResourceImpl"],
+			"propertyPackages" : ["ResourceImpl"],
+			"properties": []
+		},
+		{
+			"type":			"node",
+			"id":			"valuedParameterImpl",
+			"title":		"Valued Parameter Implementation ",	
+			"groups":		["Resource Element"],
+			"description":	"Entity representing a parameter of a human resource or resource classifier.",
+			"view":			"node.valuedParameterImpl.svg",
+			"icon":			"node.valuedParameterImpl.png",
+			"roles":		[],
+			"propertyPackages" : ["ValuedParameter"],
+			"properties": []
+		},
+		{
+			"type":			"node",
+			"id":			"resourcePrivilegeImpl",
+			"title":		"Resource Privilege Implementation ",	
+			"groups":		["Privilege Implementation"],
+			"description":	"Defines a resource privilege.",
+			"view":			"node.resourcePrivilegeImpl.svg",
+			"icon":			"node.resourcePrivilegeImpl.png",
+			"roles":		["PrivilegeImpl"],
+			"propertyPackages" : ["PrivilegeImpl"],
+			"properties": []
+		},
+		{
+			"type":			"node",
+			"id":			"taskPrivilegeImpl",
+			"title":		"Task Privilege Implementation",	
+			"groups":		["Privilege Implementation"],
+			"description":	"Defines a task privilege.",
+			"view":			"node.taskPrivilegeImpl.svg",
+			"icon":			"node.taskPrivilegeImpl.png",
+			"roles":		["PrivilegeImpl"],
+			"propertyPackages" : ["PrivilegeImpl"],
+			"properties": []
+		},
+		{
+			"type":			"node",
+			"id":			"classificationImpl",
+			"title":		"Clasification Implementation",	
+			"groups":		["Resource Element"],
+			"description":	"Defines a resource classification relationship.",
+			"view":			"node.resourceClassificationImpl.svg",
+			"icon":			"node.resourceClassificationImpl.png",
+			"roles":		[],
+			"propertyPackages" : ["Relationship"],
+			"properties": []
+		},
+		{
+			"type":			"node",
+			"id":			"resolutionConstraintImpl",
+			"title":		"Resolution Constraint Implementation",	
+			"groups":		["Constraints"],
+			"description":	"Defines a resolution constraint.",
+			"view":			"node.resolutionConstraintImpl.svg",
+			"icon":			"node.resolutionConstraintImpl.png",
+			"roles":		[],
+			"propertyPackages" : ["Constraint"],
+			"properties": []
+		},
+		{
+			"type":			"node",
+			"id":			"relationshipImpl",
+			"title":		"Relationship Implementation",	
+			"groups":		["Resource Element"],
+			"description":	"Defines a relationship between resource classifiers.",
+			"view":			"node.relationshipImpl.svg",
+			"icon":			"node.relationshipImpl.png",
+			"roles":		[],
+			"propertyPackages" : ["Relationship"],
+			"properties": []
+		},
+		{
+			"type":			"node",
+			"id":			"roleImpl",
+			"title":		"Role Implementation",	
+			"groups":		["Role Element"],
+			"description":	"Defines a resource role.",
+			"view":			"node.roleImpl.svg",
+			"icon":			"node.roleImpl.png",
+			"roles":		[],
+			"propertyPackages" : ["Role"],
+			"properties": []
+		},
+		{
+			"type":			"node",
+			"id":			"transformationImpl",
+			"title":		"Transformation Implementation",	
+			"groups":		["Transformation Element"],
+			"description":	"Defines a model transformation.",
+			"view":			"node.transformationImpl.svg",
+			"icon":			"node.transformationImpl.png",
+			"roles":		[],
+			"propertyPackages" : ["Transformation"],
+			"properties": []
+		},
+		{
+			"type":			"edge",
+			"id":			"link",
+			"title":		"Link",	
+			"groups":		["Link"],
+			"description":	"A link between a resource implementation element and a relationship or classification definition",
+			"view":			"edge.link.svg",
+			"icon":			"edge.link.png",
+			"roles":		[],
+			"properties": [
+				{
+					"id":		"type",
+					"type":		"Choice",
+					"title":	"Type",
+					"value":	"",
+					"description":"",
+					"readonly":	false,
+					"optional":	true,
+					"length":	"",
+					"refToView":"text_type",
+					"wrapLines":false,
+					"items":[
+						{
+							"id":"c1",
+							"title":"Classifications",
+							"value":"Classifications"
+						},
+						{
+							"id":"c2",
+							"title":"Relationships",
+							"value":"Relationships"
+						},
+						{
+							"id":"c3",
+							"title":"Target",
+							"value":"Target"
+						},
+						{
+							"id":"c4",
+							"title":"Privileges",
+							"value":"Privileges"
+						}
+					]
+				}
+			]
+		}
+	],
+	"rules":{
+		"connectionRules": [
+			{
+				"role": 	"link",
+				"connects": [
+					{
+						"from": "ResourceImpl",
+						"to":	"classificationImpl"
+					},
+					{
+						"from": "ResourceImpl",
+						"to":	"relationshipImpl"
+					},
+					{
+						"from": "classificationImpl",
+						"to":	"resourceClassifierImpl"
+					},
+					{
+						"from": "relationshipImpl",
+						"to":	"resourceClassifierImpl"
+					},
+					{
+						"from": "roleImpl",
+						"to":	"taskPrivilegeImpl"
+					}
+				]
+			},
+			{
+				"role": 	"mixedRelationship",
+				"connects": [
+					{
+						"from": "humanResource",
+						"to":	"resourceClassifier"
+					}
+				],
+			}
+		],
+		"containmentRules":	[
+			{
+				"role":		"Diagram",
+				"contains": [
+							"ResourceImpl", "PrivilegeImpl", "classificationImpl", "relationshipImpl", 
+							"link", "roleImpl", "resolutionConstraintImpl", "transformationImpl", "valuedParameterImpl"
+				]
+			}
+		]
+	}
+}
