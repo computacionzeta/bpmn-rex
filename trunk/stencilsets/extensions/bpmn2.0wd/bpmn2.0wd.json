@@ -1,0 +1,156 @@
+{
+	"title":"BPMN 2.0 Work Distribution Extension",
+	"namespace":"http://www.cidisi.org/bpmn/extensions/workdistribution#",
+	"description":"Extension to BPMN 2.0 to work with work distribution concepts.",
+	"extends":"http://b3mn.org/stencilset/bpmn2.0#",
+	"propertyPackages" : [
+	],
+	"stencils":[], 
+	"properties" : [
+		{
+			"roles" : ["Task"],
+			properties : [
+				{
+					"id":"resources",
+					"type":"Complex",
+					"title":"Resources",
+					"value":"",
+					"description":"",
+					"readonly":false,
+					"optional":true,
+					"popular":true,
+					"complexItems": [
+						{
+							"id":"name",
+							"name":"Name",
+							"type":"String",
+							"value":"",
+							"width":100,
+							"optional":true
+						},
+						{
+							"id":"documentation",
+							"name":"Documentation",
+							"type":"String",
+							"value":"",
+							"width":100,
+							"optional":true
+						},
+						{
+							"id":"resourceRef",
+							"name":"ResourceRef",
+							"type":"String",
+							"value":"",
+							"width":100,
+							"optional":true
+						},
+						{
+							"id":"resourceParameterBinding",
+							"name":"ResourceParameterBinding",
+							"type":"String",
+							"value":"",
+							"width":100,
+							"optional":true
+						},
+						{
+							"id":"resourceAssignmentExpression",
+							"name":"ResourceAssignmentExpression",
+							"type":"String",
+							"value":"",
+							"width":100,
+							"optional":true
+						},
+						{
+							"id":"trigger",
+							"name":"Trigger",
+							"type":"String",
+							"value":"",
+							"width":100,
+							"optional":true
+						},
+						{
+							"id":"escalation",
+							"name":"Escalation",
+							"type":"String",
+							"value":"",
+							"width":100,
+							"optional":true
+						},
+						{
+							"id":"definition",
+							"name":"Definition",
+							"type":"String",
+							"value":"",
+							"width":100,
+							"optional":true
+						}
+					]
+				}
+			]
+		},
+		{
+			"roles" : ["Task"],
+			properties : [
+				{
+					"id":"revokedPrivileges",
+					"type":"Complex",
+					"title":"RevokedPrivileges",
+					"value":"",
+					"description":"",
+					"readonly":false,
+					"optional":true,
+					"popular":true,
+					"complexItems": [
+						{
+							"id":"name",
+							"name":"Name",
+							"type":"String",
+							"value":"",
+							"width":100,
+							"optional":true
+						},
+						{
+							"id":"definition",
+							"name":"Definition",
+							"type":"String",
+							"value":"",
+							"width":100,
+							"optional":true
+						}
+					]
+				}
+			]
+		},
+		{
+			"roles" : ["BPMNDiagram"],
+			properties : [
+				{
+					"id":"idm",
+					"title":"IDM",
+					"description":"Implementation Definition Model",
+					"type":"String",
+					"value":"",
+					"readonly":false,
+					"optional":true,
+					"popular":true
+				},
+				{
+					"id":"rsm",
+					"title":"RSM",
+					"description":"Resource Structure Model",
+					"type":"String",
+					"value":"",
+					"readonly":false,
+					"optional":true,
+					"popular":true
+				}
+			]
+		}
+	],
+	"rules": {
+		"containmentRules":	[],
+        "cardinalityRules": [],
+		"morphingRules": []
+	}
+	
+}

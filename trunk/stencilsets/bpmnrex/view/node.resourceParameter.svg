@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:oryx="http://www.b3mn.org/oryx"
+   version="1.0">
+  <g>
+	<circle cx="0" cy="0" r="4" stroke="black" stroke-width="0" fill="#4F81BD"/>  
+    <text id="nameText" x="24" y="0" oryx:align="middle left"></text> 
+	<text id="valueText" x="90" y="0" oryx:align="middle left"></text> 		
+  </g>
+</svg>

@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:oryx="http://www.b3mn.org/oryx"
+   version="1.0">
+  <oryx:magnets>
+  	<oryx:magnet oryx:cx="150" oryx:cy="0" oryx:default="yes"/>
+  	<oryx:magnet oryx:cx="150" oryx:cy="150"/>
+  	<oryx:magnet oryx:cx="300" oryx:cy="75"/>
+  	<oryx:magnet oryx:cx="0" oryx:cy="75"/>
+  </oryx:magnets>
+  
+  <g>
+	<rect
+       id="border"
+       oryx:anchors="top bottom left right"
+       oryx:resize="vertical horizontal"
+       width="300"
+       height="150"
+       x="0" y="0"
+       stroke="black" fill="white" stroke-width="1" /> 
+    <rect
+       id="nameBorder"
+       oryx:anchors="top left right"
+       oryx:resize="horizontal"
+       width="300"
+       height="32"
+       x="0" y="-32"
+       stroke="black" fill="white" stroke-width="1" />  
+	   
+    <text 
+	   oryx:anchors="top left right"
+	   oryx:resize="horizontal"
+	   id="nameText" x="30" y="-24" oryx:align="middle left"></text> 
+	<text 
+	   oryx:anchors="top left right"
+	   oryx:resize="horizontal"
+	   id="definitionText" x="30" y="-12" oryx:align="middle left"></text> 
+	   
+	<text 
+	   oryx:anchors="top bottom left right"
+	   oryx:resize="horizontal vertical"
+	   id="parametersText" x="5" y="5" oryx:align="top left"></text> 
+	   
+	<line 
+		oryx:anchors="bottom left right"
+	    oryx:resize="horizontal"
+		x1="0" y1="100" x2="300" y2="100" style="stroke:rgb(0,0,0);stroke-width:1" />
+	   
+	<text 
+	   oryx:anchors="bottom left right"
+	   oryx:resize="horizontal vertical"
+	   id="privilegesText" x="5" y="135" oryx:align="top left"></text> 
+	   
+    <g
+       id="1"
+       transform="translate(0,0)">
+      <path oryx:anchors="top left"
+         d="M 0,-28"
+         style="fill:none;stroke:#000000;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none"
+         id="2"/>
+      <path oryx:anchors="top left"
+         d="m 2.1175207,-9 c 0,-3.055734 3.7520252,-5.602179 8.2803313,-5.602179 l 0,0 c 4.592996,0 8.280332,2.546445 8.280332,5.602179 0,0 0,0 0,0 l 0,0 c 0,3.119396 -3.687336,5.60218 -8.280332,5.60218 0,0 0,0 0,0 l 0,0 c -4.5283061,0 -8.2803313,-2.482784 -8.2803313,-5.60218 0,0 0,0 0,0 z"
+         style="fill:#4f81bd;fill-opacity:1;fill-rule:evenodd;stroke:none"
+         id="3"/>
+      <path oryx:anchors="top left"
+         d="m 5.222645,-20 c 0,-2.8010899 2.1347729,-5.0928907 4.6576864,-5.0928907 0,0 0,0 0,0 l 0,0 c 2.5876036,0 4.6576866,2.2918008 4.6576866,5.0928907 0,0 0,0 0,0 l 0,0 c 0,2.8647512 -2.070083,5.0928912 -4.6576866,5.0928912 0,0 0,0 0,0 l 0,0 c -2.5229135,0 -4.6576864,-2.22814 -4.6576864,-5.0928912 0,0 0,0 0,0 z"
+         style="fill:#4f81bd;fill-opacity:1;fill-rule:evenodd;stroke:none"
+         id="4"/>
+    </g>
+  </g>
+</svg>
