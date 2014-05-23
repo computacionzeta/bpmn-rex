@@ -41,11 +41,11 @@ ORYX.Plugins.BPMN2_0WD = {
 	rsStencilSetExtensionNamespace: "http://b3mn.org/stencilset/bpmnrex#",
 	bpmnSerializationHandlerUrl: ORYX.CONFIG.ROOT_PATH + "bpmn2_0wdtoyawl",
 	bpmnRSSerializationHandlerUrl: ORYX.CONFIG.ROOT_PATH + "bpmn2_0rstoyawl",
-	idmExtensionUrl : ORYX.CONFIG.ROOT_PATH + "idmExtension",
+	rpimExtensionUrl : ORYX.CONFIG.ROOT_PATH + "rpimExtension",
 	rsmExtensionUrl : ORYX.CONFIG.ROOT_PATH + "rsmExtension", 
 	
 	importedRSM : "",
-	importedIDM : "",
+	importedRPIM : "",
 
 	resources		    : "[]", 
 	resourceParameters	: "[]", 
@@ -115,11 +115,11 @@ ORYX.Plugins.BPMN2_0WD = {
 		});
 		
 		this.facade.offer({
-			'name': 'Import IDM',
-			'functionality': this.showIDM.bind(this),
+			'name': 'Import RPIM',
+			'functionality': this.showRPIM.bind(this),
 			'group': 'Export',
 			'icon': ORYX.PATH + 'images/door.png',
-			'description': 'Shows the list of IDM in the repository',
+			'description': 'Shows the list of RPIM in the repository',
             dropDownGroupIcon: ORYX.PATH + "images/export2.png",
 			'index': 3,
 			'minShape': 0,
@@ -142,13 +142,124 @@ ORYX.Plugins.BPMN2_0WD = {
 
 		});
 		
-		if(this.facade.getCanvas().properties["oryx-idm"] != "" && this.facade.getCanvas().properties["oryx-idm"] != undefined){
-			this.importIDM(this.facade.getCanvas().properties["oryx-idm"]);		
+		this.facade.offer({
+			'name': 'Tag as BPLM',
+			'functionality': this.tagBPLM.bind(this),
+			'group': 'Export',
+			'icon': ORYX.PATH + 'images/door.png',
+			'description': 'Tags the model as a BPLM',
+            dropDownGroupIcon: ORYX.PATH + "images/export2.png",
+			'index': 5,
+			'minShape': 0,
+			'maxShape': 0,
+			'isEnabled': 		this._isStencilSetExtensionLoaded.bind(this)
+
+		});
+		
+		this.facade.offer({
+			'name': 'Tag as PI-EPM',
+			'functionality': this.tagPIEPM.bind(this),
+			'group': 'Export',
+			'icon': ORYX.PATH + 'images/door.png',
+			'description': 'Tags the model as a PI-EPM',
+            dropDownGroupIcon: ORYX.PATH + "images/export2.png",
+			'index': 6,
+			'minShape': 0,
+			'maxShape': 0,
+			'isEnabled': 		this._isStencilSetExtensionLoaded.bind(this)
+
+		});
+		
+		this.facade.offer({
+			'name': 'Tag as PS-EPM',
+			'functionality': this.tagPSEPM.bind(this),
+			'group': 'Export',
+			'icon': ORYX.PATH + 'images/door.png',
+			'description': 'Tags the model as a PS-EPM',
+            dropDownGroupIcon: ORYX.PATH + "images/export2.png",
+			'index': 7,
+			'minShape': 0,
+			'maxShape': 0,
+			'isEnabled': 		this._isStencilSetExtensionLoaded.bind(this)
+
+		});
+		
+		this.facade.offer({
+			'name': 'Initialize PI-EPM',
+			'functionality': this.selectBPLM.bind(this),
+			'group': 'Export',
+			'icon': ORYX.PATH + 'images/door.png',
+			'description': 'Initializes a PI-EPM with base on a BPLM in the repository',
+            dropDownGroupIcon: ORYX.PATH + "images/export2.png",
+			'index': 8,
+			'minShape': 0,
+			'maxShape': 0,
+			'isEnabled': 		this._isStencilSetExtensionLoaded.bind(this)
+
+		});
+		
+		this.facade.offer({
+			'name': 'Initialize PS-EPM',
+			'functionality': this.selectPIEPM.bind(this),
+			'group': 'Export',
+			'icon': ORYX.PATH + 'images/door.png',
+			'description': 'Initializes a PI-EPM with base on a BPLM in the repository',
+            dropDownGroupIcon: ORYX.PATH + "images/export2.png",
+			'index': 9,
+			'minShape': 0,
+			'maxShape': 0,
+			'isEnabled': 		this._isStencilSetExtensionLoaded.bind(this)
+
+		});
+		
+		this.facade.offer({
+			'name': 'Initialize PS-RSM',
+			'functionality': this.selectPIRSM.bind(this),
+			'group': 'Export',
+			'icon': ORYX.PATH + 'images/door.png',
+			'description': 'Initializes a PI-EPM with base on a BPLM in the repository',
+            dropDownGroupIcon: ORYX.PATH + "images/export2.png",
+			'index': 10,
+			'minShape': 0,
+			'maxShape': 0,
+			'isEnabled': 		this._isStencilSetExtensionLoaded.bind(this)
+
+		});
+		
+		if(this.facade.getCanvas().properties["oryx-rpim"] != "" && this.facade.getCanvas().properties["oryx-rpim"] != undefined){
+			this.importRPIM(this.facade.getCanvas().properties["oryx-rpim"]);		
 		}
 		
 		if(this.facade.getCanvas().properties["oryx-rsm"] != "" && this.facade.getCanvas().properties["oryx-rsm"] != undefined){
 			this.importRSM(this.facade.getCanvas().properties["oryx-rsm"]);
 		}
+	},
+	
+	tagBPLM: function(option) {
+		this.tag("BPLM");
+	},
+	
+	tagPIEPM: function(option) {
+		this.tag("PI-EPM");
+	},
+	
+	tagPSEPM: function(option) {
+		this.tag("PS-EPM");
+	},
+	
+	tag: function(tag) {
+		var id = this.getModelId();
+		new Ajax.Request('/backend/poem/model/'+id+'/tags', {
+			method: 'POST',
+			asynchronous: false,
+			parameters: {
+				tag_name: tag
+			},
+			onSuccess: function(request){
+				resp = request.responseText.evalJSON();
+				returnValue = resp;
+			}.bind(this)
+    	});
 	},
 	
 	/*handlePropertyChanged : function(event) {
@@ -240,7 +351,7 @@ ORYX.Plugins.BPMN2_0WD = {
 	},
 	
 	getWDExtension : function(){
-		var extension = '{\"title\":\"IDM Extension\",\"namespace\":\"http://www.cidisi.org/bpmn/extensions/idm#\",\"description\":\"Extend the model with implementation definition elements.\",\"extends\":\"http://b3mn.org/stencilset/bpmn2.0#\",\"propertyPackages\" : [],\"stencils\":[], \"properties\" : [{\"roles\" : [\"Task\"], \"properties\" : [{\"id\":\"revokedPrivileges\",\"type\":\"Complex\",\"title\":\"RevokedPrivileges\",\"value\":\"\",\"description\":\"\",\"readonly\":false,\"optional\":true,\"popular\":true,\"complexItems\": [{\"id\":\"taskPrivilege\",\"name\":\"taskPrivilege\",\"type\":\"Choice\",\"value\":\"\",\"width\":100,\"optional\":true,##taskPrivileges##}]},{\"id\":\"resources\",\"type\":\"Complex\",\"title\":\"Resources\",\"value\":\"\",\"description\":\"\",\"readonly\":false,\"optional\":true,\"popular\":true,\"complexItems\": [{\"id\":\"name\",\"name\":\"Name\",\"type\":\"String\",\"value\":\"\",\"width\":100,\"optional\":true},{\"id\":\"documentation\",\"name\":\"Documentation\",\"type\":\"String\",\"value\":\"\",\"width\":100,\"optional\":true},{\"id\":\"resourceRef\",\"name\":\"ResourceRef\",\"type\":\"Choice\",\"value\":\"\",\"width\":100,\"optional\":true,##resources##},{\"id\":\"resourceParameterBinding\",\"name\":\"RresourceParameterBinding\",\"type\":\"Choice\",\"value\":\"\",\"width\":100,\"optional\":true,##resourceParameters##},{\"id\":\"resourceAssignmentExpression\",\"name\":\"ResourceAssignmentExpression\",\"type\":\"String\",\"value\":\"\",\"width\":100,\"optional\":true},{\"id\":\"resolutionConstraint\",\"name\":\"ResolutionConstraint\",\"type\":\"Choice\",\"value\":\"\",\"width\":100,\"optional\":true,##resolutionConstraints##},{\"id\":\"trigger\",\"name\":\"Trigger\",\"type\":\"String\",\"value\":\"\",\"width\":100,\"optional\":true},{\"id\":\"escalation\",\"name\":\"Escalation\",\"type\":\"String\",\"value\":\"\",\"width\":100,\"optional\":true},{\"id\":\"definition\",\"name\":\"Definition\",\"type\":\"Choice\",\"value\":\"\",\"width\":100,\"optional\":true,##definition_items##}]}]}]}';
+		var extension = '{\"title\":\"RPIM Extension\",\"namespace\":\"http://www.cidisi.org/bpmn/extensions/rpim#\",\"description\":\"Extend the model with implementation definition elements.\",\"extends\":\"http://b3mn.org/stencilset/bpmn2.0#\",\"propertyPackages\" : [],\"stencils\":[], \"properties\" : [{\"roles\" : [\"Task\"], \"properties\" : [{\"id\":\"revokedPrivileges\",\"type\":\"Complex\",\"title\":\"RevokedPrivileges\",\"value\":\"\",\"description\":\"\",\"readonly\":false,\"optional\":true,\"popular\":true,\"complexItems\": [{\"id\":\"taskPrivilege\",\"name\":\"taskPrivilege\",\"type\":\"Choice\",\"value\":\"\",\"width\":100,\"optional\":true,##taskPrivileges##}]},{\"id\":\"resources\",\"type\":\"Complex\",\"title\":\"Resources\",\"value\":\"\",\"description\":\"\",\"readonly\":false,\"optional\":true,\"popular\":true,\"complexItems\": [{\"id\":\"name\",\"name\":\"Name\",\"type\":\"String\",\"value\":\"\",\"width\":100,\"optional\":true},{\"id\":\"documentation\",\"name\":\"Documentation\",\"type\":\"String\",\"value\":\"\",\"width\":100,\"optional\":true},{\"id\":\"resourceRef\",\"name\":\"ResourceRef\",\"type\":\"Choice\",\"value\":\"\",\"width\":100,\"optional\":true,##resources##},{\"id\":\"resourceParameterBinding\",\"name\":\"RresourceParameterBinding\",\"type\":\"Choice\",\"value\":\"\",\"width\":100,\"optional\":true,##resourceParameters##},{\"id\":\"resourceAssignmentExpression\",\"name\":\"ResourceAssignmentExpression\",\"type\":\"String\",\"value\":\"\",\"width\":100,\"optional\":true},{\"id\":\"resolutionConstraint\",\"name\":\"ResolutionConstraint\",\"type\":\"Choice\",\"value\":\"\",\"width\":100,\"optional\":true,##resolutionConstraints##},{\"id\":\"trigger\",\"name\":\"Trigger\",\"type\":\"String\",\"value\":\"\",\"width\":100,\"optional\":true},{\"id\":\"escalation\",\"name\":\"Escalation\",\"type\":\"String\",\"value\":\"\",\"width\":100,\"optional\":true},{\"id\":\"definition\",\"name\":\"Definition\",\"type\":\"Choice\",\"value\":\"\",\"width\":100,\"optional\":true,##definition_items##}]}]}]}';
 		
 		extension = extension.replace("##definition_items##", '"items":'+this.roleDefinitions);
 		extension = extension.replace("##taskPrivileges##", '"items":'+this.taskPrivilegeDefinitions);
@@ -254,7 +365,7 @@ ORYX.Plugins.BPMN2_0WD = {
 	},
 	
 	getRSExtension : function(){
-		var extension = '{\"title\":\"BPMN 2.0 Work Distribution Extension\",\"namespace\":\"http://www.cidisi.org/bpmn/extensions/resourcestructure#\",\"description\":\"Extension to BPMN-REX with IDM elements.\",\"extends\":\"http://b3mn.org/stencilset/bpmnrex#\",\"propertyPackages\" : [],\"stencils\":[], \"properties\" : [{\"roles\" : [\"resourceParameter\"],\"properties\":[{\"id\":\"definition\",\"type\":\"Choice\",\"title\":\"Definition\",\"value\":\"\",\"description\":\"IDM definition\",\"readonly\":false,\"optional\":true,\"popular\":true,##resourceParameterDefinitions##}]},{\"roles\" : [\"resourceClassifier\"],properties : [{\"id\":\"definition\",\"name\":\"Definition\",\"type\":\"Choice\",\"value\":\"\",popular: true,\"width\":80,\"optional\":true,##resourceClassifierDefinitions##},{\"id\":\"privileges\",\"type\":\"Complex\",\"title\":\"Privileges\",\"value\":\"\",\"description\":\"Resource Privileges\",\"readonly\":false,\"optional\":true,\"popular\":true,\"complexItems\": [{\"id\":\"privilege\",\"name\":\"Privilege\",\"type\":\"Choice\",\"value\":\"\",\"width\":100,\"optional\":true,##resourceClassifierPrivilegeDefinitions##}]}]},{\"roles\" : [\"humanResource\"],properties : [{\"id\":\"definition\",\"name\":\"Definition\",\"type\":\"Choice\",\"value\":\"\",popular: true,\"width\":80,\"optional\":true,##humanResourceDefinitions##},{\"id\":\"privileges\",\"type\":\"Complex\",\"title\":\"Privileges\",\"value\":\"\",\"description\":\"Resource Privileges\",\"readonly\":false,\"optional\":true,\"popular\":true,\"complexItems\": [{\"id\":\"privilege\",\"name\":\"Privilege\",\"type\":\"Choice\",\"value\":\"\",\"width\":100,\"optional\":true,##humanResourcePrivilegeDefinitions##}]}]},{\"roles\" : [\"resourceReference\"],properties : [{\"id\":\"definition\",\"title\":\"Definition\",\"description\":\"Platform specific definition of the reference.\",\"popular\":true,\"type\":\"Choice\",\"value\":\"\",\"optional\":true,##relationshipDefinitions##}]},{\"roles\" : [\"resourceClassification\"],properties : [{\"id\":\"definition\",\"title\":\"Definition\",\"description\":\"Platform specific definition of the classification.\",\"popular\":true,\"type\":\"Choice\",\"value\":\"\",\"optional\":true,##classificationDefinitions##}]},{\"roles\" : [\"Diagram\"],properties : [{\"id\":\"idm\",\"title\":\"IDM\",\"description\":\"Implementation Definition Model\",\"type\":\"String\",\"value\":\"\",\"readonly\":false,\"optional\":true,\"popular\":true}]}]}';
+		var extension = '{\"title\":\"BPMN 2.0 Work Distribution Extension\",\"namespace\":\"http://www.cidisi.org/bpmn/extensions/resourcestructure#\",\"description\":\"Extension to BPMN-REX with RPIM elements.\",\"extends\":\"http://b3mn.org/stencilset/bpmnrex#\",\"propertyPackages\" : [],\"stencils\":[], \"properties\" : [{\"roles\" : [\"resourceParameter\"],\"properties\":[{\"id\":\"definition\",\"type\":\"Choice\",\"title\":\"Definition\",\"value\":\"\",\"description\":\"RPIM definition\",\"readonly\":false,\"optional\":true,\"popular\":true,##resourceParameterDefinitions##}]},{\"roles\" : [\"resourceClassifier\"],properties : [{\"id\":\"definition\",\"name\":\"Definition\",\"type\":\"Choice\",\"value\":\"\",popular: true,\"width\":80,\"optional\":true,##resourceClassifierDefinitions##},{\"id\":\"privileges\",\"type\":\"Complex\",\"title\":\"Privileges\",\"value\":\"\",\"description\":\"Resource Privileges\",\"readonly\":false,\"optional\":true,\"popular\":true,\"complexItems\": [{\"id\":\"privilege\",\"name\":\"Privilege\",\"type\":\"Choice\",\"value\":\"\",\"width\":100,\"optional\":true,##resourceClassifierPrivilegeDefinitions##}]}]},{\"roles\" : [\"humanResource\"],properties : [{\"id\":\"definition\",\"name\":\"Definition\",\"type\":\"Choice\",\"value\":\"\",popular: true,\"width\":80,\"optional\":true,##humanResourceDefinitions##},{\"id\":\"privileges\",\"type\":\"Complex\",\"title\":\"Privileges\",\"value\":\"\",\"description\":\"Resource Privileges\",\"readonly\":false,\"optional\":true,\"popular\":true,\"complexItems\": [{\"id\":\"privilege\",\"name\":\"Privilege\",\"type\":\"Choice\",\"value\":\"\",\"width\":100,\"optional\":true,##humanResourcePrivilegeDefinitions##}]}]},{\"roles\" : [\"resourceReference\"],properties : [{\"id\":\"definition\",\"title\":\"Definition\",\"description\":\"Platform specific definition of the reference.\",\"popular\":true,\"type\":\"Choice\",\"value\":\"\",\"optional\":true,##relationshipDefinitions##}]},{\"roles\" : [\"resourceClassification\"],properties : [{\"id\":\"definition\",\"title\":\"Definition\",\"description\":\"Platform specific definition of the classification.\",\"popular\":true,\"type\":\"Choice\",\"value\":\"\",\"optional\":true,##classificationDefinitions##}]},{\"roles\" : [\"Diagram\"],properties : [{\"id\":\"rpim\",\"title\":\"RPIM\",\"description\":\"Implementation Definition Model\",\"type\":\"String\",\"value\":\"\",\"readonly\":false,\"optional\":true,\"popular\":true}]}]}';
 		
 		extension = extension.replace("##resourceClassifierDefinitions##", '"items":'+this.resourceClassifierDefinitions);
 		extension = extension.replace("##resourceClassifierPrivilegeDefinitions##", '"items":'+this.resourcePrivilegeDefinitions);
@@ -516,13 +627,13 @@ ORYX.Plugins.BPMN2_0WD = {
 		return returnValue;
 	},
 	
-	showIDM : function (){
-		var arrIDM = this.getListModelsByTag("IDM");
+	showRPIM : function (){
+		var arrRPIM = this.getListModelsByTag("RPIM");
 		
 		var arrColumns = new Array();
-		for(var i=0; i< arrIDM.length; i++){
-			var idm = arrIDM[i];
-			arrColumns.push([idm['id'], idm['title'], idm['jsonUri']]);
+		for(var i=0; i< arrRPIM.length; i++){
+			var rpim = arrRPIM[i];
+			arrColumns.push([rpim['id'], rpim['title'], rpim['jsonUri']]);
 		}
 		
 		// Create a new Selection Model
@@ -530,12 +641,12 @@ ORYX.Plugins.BPMN2_0WD = {
 		
 		var grid = new Ext.grid.GridPanel({
         	deferRowRender: false,
-            id: 'oryx_idm_grid',
+            id: 'oryx_rpim_grid',
             store: new Ext.data.SimpleStore({
                 fields: ['id', 'title', 'jsonUri']
             }),
             cm: new Ext.grid.ColumnModel([sm, {
-                header: "Select an IDM",
+                header: "Select an RPIM",
                 width: 200,
                 sortable: true,
                 dataIndex: 'title'
@@ -557,38 +668,38 @@ ORYX.Plugins.BPMN2_0WD = {
         var panel = new Ext.Panel({
             items: [{
                 xtype: 'label',
-                text: 'Select the IDM you want to load',
+                text: 'Select the RPIM you want to load',
                 style: 'margin:10px;display:block'
             }, grid],
             frame: true,
             buttons: [{
                 text: 'Import',
                 handler: function(){
-                    var selectionModel = Ext.getCmp('oryx_idm_grid').getSelectionModel();
+                    var selectionModel = Ext.getCmp('oryx_rpim_grid').getSelectionModel();
                     var result = selectionModel.selections.items.collect(function(item){
                         return item.data;
                     });
 					
-                    this.facade.getCanvas().setProperty('oryx-idm', result[0].jsonUri);
-					this.importIDM(result[0].jsonUri);
+                    this.facade.getCanvas().setProperty('oryx-rpim', result[0].jsonUri);
+					this.importRPIM(result[0].jsonUri);
 					
 					//panel.close();
-                    Ext.getCmp('oryx_new_idm_window').close();
+                    Ext.getCmp('oryx_new_rpim_window').close();
                     //successCallback(result);
                 }.bind(this)
             }, {
                 text: ORYX.I18N.SSExtensionLoader.labelCancel,
                 handler: function(){
-                    Ext.getCmp('oryx_new_idm_window').close();
+                    Ext.getCmp('oryx_new_rpim_window').close();
                 }.bind(this)
             }]
         })
         
         // Create a new Window
         var window = new Ext.Window({
-            id: 'oryx_new_idm_window',
+            id: 'oryx_new_rpim_window',
             width: 227,
-            title: "Select an IDM",
+            title: "Select an RPIM",
             floating: true,
             shim: true,
             modal: true,
@@ -601,29 +712,29 @@ ORYX.Plugins.BPMN2_0WD = {
         window.show();
 	},
 	
-	importIDM : function(jsonUri){		
-		var idmJSON = "";
+	importRPIM : function(jsonUri){		
+		var rpimJSON = "";
 		new Ajax.Request(jsonUri, {
 			method: 'GET',
 			asynchronous: false,
 			parameters : {
 			},
 			onSuccess: function(request){
-				idmJSON = request.responseText;
+				rpimJSON = request.responseText;
 			}.bind(this),
 			onFailure: function(){
-				idmJSON = "";
+				rpimJSON = "";
 			}
 		});
 		
-		this.importedIDM = idmJSON;
+		this.importedRPIM = rpimJSON;
 		
 		var _this = this;
-		new Ajax.Request(this.idmExtensionUrl, {
+		new Ajax.Request(this.rpimExtensionUrl, {
 			method: 'POST',
 			asynchronous: false,
 			parameters : {
-				data: idmJSON
+				data: rpimJSON
 			},
 			onSuccess: function(request){
 				var items = JSON.parse(request.responseText);
@@ -759,6 +870,121 @@ ORYX.Plugins.BPMN2_0WD = {
 				options.onFailure();
 			}
 		});
+	},
+	
+	selectBPLM : function(){
+		this.select("BPLM");
+	},
+	
+	selectPIEPM : function(){
+		this.select("PI-EPM");
+	},
+	
+	selectPIRSM : function(){
+		this.select("PI-RSM");
+	},
+	
+	select : function(tag){
+		var arr = this.getListModelsByTag(tag);
+
+		var arrColumns = new Array();
+		for(var i=0; i< arr.length; i++){
+			var row = arr[i];
+			arrColumns.push([row['id'], row['title'], row['jsonUri']]);
+		}
+		
+		// Create a new Selection Model
+        var sm = new Ext.grid.CheckboxSelectionModel();
+		
+		var grid = new Ext.grid.GridPanel({
+        	deferRowRender: false,
+            id: 'oryx_model_grid',
+            store: new Ext.data.SimpleStore({
+                fields: ['id', 'title', 'jsonUri']
+            }),
+            cm: new Ext.grid.ColumnModel([sm, {
+                header: "Select a "+tag,
+                width: 200,
+                sortable: true,
+                dataIndex: 'title'
+            }]),
+            sm: sm,
+            frame: true,
+            width: 200,
+            height: 200,
+            iconCls: 'icon-grid',
+            listeners: {
+                "render": function(){
+                    this.getStore().loadData(arrColumns);
+                    //selectItems.defer(1);
+                }
+            }
+        });
+		
+		// Create a new Panel
+        var panel = new Ext.Panel({
+            items: [{
+                xtype: 'label',
+                text: 'Select the '+tag+' you want to load',
+                style: 'margin:10px;display:block'
+            }, grid],
+            frame: true,
+            buttons: [{
+                text: 'Import',
+                handler: function(){
+                    var selectionModel = Ext.getCmp('oryx_model_grid').getSelectionModel();
+                    var result = selectionModel.selections.items.collect(function(item){
+                        return item.data;
+                    });
+					
+                    this.facade.getCanvas().setProperty('oryx-rsm', result[0].jsonUri);
+					this.initialize(result[0].jsonUri);
+					
+					//panel.close();
+                    Ext.getCmp('oryx_new_model_window').close();
+                    //successCallback(result);
+                }.bind(this)
+            }, {
+                text: ORYX.I18N.SSExtensionLoader.labelCancel,
+                handler: function(){
+                    Ext.getCmp('oryx_new_model_window').close();
+                }.bind(this)
+            }]
+        })
+        
+        // Create a new Window
+        var window = new Ext.Window({
+            id: 'oryx_new_model_window',
+            width: 227,
+            title: "Select a "+tag,
+            floating: true,
+            shim: true,
+            modal: true,
+            resizable: false,
+            autoHeight: true,
+            items: [panel]
+        })
+        
+        // Show the window
+        window.show();
+	},
+	
+	initialize : function(jsonUri){
+		var strJSON = "";
+		new Ajax.Request(jsonUri, {
+			method: 'GET',
+			asynchronous: false,
+			parameters : {
+			},
+			onSuccess: function(request){
+				strJSON = request.responseText;
+			}.bind(this),
+			onFailure: function(){
+				strJSON = "";
+			}
+		});
+		
+		this.facade.importJSON(JSON.parse(strJSON));
 	}
 };
 
