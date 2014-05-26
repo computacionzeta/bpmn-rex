@@ -226,6 +226,20 @@ ORYX.Plugins.BPMN2_0WD = {
 
 		});
 		
+		this.facade.offer({
+			'name': 'Validate Control Flow',
+			'functionality': this.validateControlFlow.bind(this),
+			'group': 'Export',
+			'icon': ORYX.PATH + 'images/door.png',
+			'description': 'Validate the control flow perspective',
+            dropDownGroupIcon: ORYX.PATH + "images/export2.png",
+			'index': 11,
+			'minShape': 0,
+			'maxShape': 0,
+			'isEnabled': 		this._isStencilSetExtensionLoaded.bind(this)
+
+		});
+		
 		if(this.facade.getCanvas().properties["oryx-rpim"] != "" && this.facade.getCanvas().properties["oryx-rpim"] != undefined){
 			this.importRPIM(this.facade.getCanvas().properties["oryx-rpim"]);		
 		}
@@ -360,7 +374,6 @@ ORYX.Plugins.BPMN2_0WD = {
 		extension = extension.replace("##resolutionConstraints##", '"items":'+this.resolutionConstraintDefinitions);
 		
 		extension = this.cleanExtension(extension);
-		console.log(extension);
 		return extension;
 	},
 	
@@ -381,8 +394,6 @@ ORYX.Plugins.BPMN2_0WD = {
 		extension = extension.replace("##classificationDefinitions##", '"items":'+this.classificationDefinitions);
 		
 		extension = this.cleanExtension(extension);
-		
-		console.log(extension);
 		
 		return extension;
 	},
@@ -937,7 +948,7 @@ ORYX.Plugins.BPMN2_0WD = {
                         return item.data;
                     });
 					
-                    this.facade.getCanvas().setProperty('oryx-rsm', result[0].jsonUri);
+                    this.facade.getCanvas().setProperty('oryx-'+tag.toLowerCase().replace('-', ''), result[0].jsonUri);
 					this.initialize(result[0].jsonUri);
 					
 					//panel.close();
@@ -984,7 +995,112 @@ ORYX.Plugins.BPMN2_0WD = {
 			}
 		});
 		
-		this.facade.importJSON(JSON.parse(strJSON));
+		var objJSON = JSON.parse(strJSON);
+		this.facade.importJSON(objJSON);
+	},
+	
+	validateControlFlow : function(){
+		var bplm = this.facade.getCanvas().properties['oryx-bplm'];
+		var piepm = this.facade.getCanvas().properties['oryx-piepm'];
+		
+		var objBPLM = null;
+		var objPIEPM = null;
+		
+		if(bplm != "" && bplm != undefined){
+			objBPLM = this.getJSON(bplm);
+		}
+		if(piepm != "" && piepm != undefined){
+			objPIEPM = this.getJSON(piepm);
+		}
+		
+		var arrTasks = this.getShapesByStencilId(this.facade.getJSON(), "Task");
+		for(var i=0; i<arrTasks.length; i++){
+			var task = arrTasks[i];
+			var bplmTask = null; 
+			var piepmTask = null; 
+			
+			if(objBPLM != null){
+				bplmTask = this.getShapesByName(objBPLM, task.properties["name"]);
+				if(bplmTask.length == 0){
+					alert("Error: "+task.properties["name"]+" not found.");
+					return false;
+				}
+			}
+			
+			if(objPIEPM != null){
+				piepmTask = this.getShapesByName(objPIEPM, task.properties["name"]);
+				if(piepmTask.length == 0){
+					alert("Error: "+task.properties["name"]+" not found.");
+					return false;
+				}
+			}
+			
+		}
+		
+		alert("Model valdiated successfuly!");
+		return true;
+	},
+	
+	getJSON : function(uri){
+		
+		var strJSON = "";
+		new Ajax.Request(uri, {
+				method: 'GET',
+				asynchronous: false,
+				parameters : {
+				},
+				onSuccess: function(request){
+					strJSON = request.responseText;
+				}.bind(this),
+				onFailure: function(){
+					strJSON = "";
+				}
+		});
+	
+		var objJSON = JSON.parse(strJSON);
+		return objJSON;
+	},
+	
+	getShapesByStencilId : function(shape, stencilId){
+		var arrShapes = new Array();
+		
+		if(shape.stencil.id == stencilId){
+			arrShapes.push(shape);
+		}
+		
+		for(var i=0; i<shape.childShapes.length; i++){
+			arrShapes = arrShapes.concat(this.getShapesByStencilId(shape.childShapes[i], stencilId));
+		}
+		
+		return arrShapes;
+	},
+	
+	getShapesByName : function(shape, name){
+		var arrShapes = new Array();
+		if(shape.properties["name"] == name){
+			arrShapes.push(shape);
+		}
+		
+		for(var i=0; i<shape.childShapes.length; i++){
+			arrShapes = arrShapes.concat(this.getShapesByName(shape.childShapes[i], name));
+		}
+		
+		return arrShapes;
+	},
+	
+	getShapeById : function(shape, id){
+		if(shape.resourceId == id){
+			return shape;
+		}
+		
+		for(var i=0; i<shape.childShapes.length; i++){
+			var returnShape = this.getShapeById(shape.childShapes[i], id);
+			if(returnShape != null){
+				return returnShape;
+			}
+		}
+		
+		return null;
 	}
 };
 
