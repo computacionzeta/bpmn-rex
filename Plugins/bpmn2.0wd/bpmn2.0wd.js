@@ -50,16 +50,16 @@ ORYX.Plugins.BPMN2_0WD = {
 	resources		    : "[]", 
 	resourceParameters	: "[]", 
 	
-	roleDefinitions     : "[]", 
-	taskPrivilegeDefinitions : "[]",
-	resolutionConstraintDefinitions : "[]",
+	roleImpls     : "[]", 
+	taskPrivilegeImpls : "[]",
+	resolutionConstraintImpls : "[]",
 	
-	resourceClassifierDefinitions : "[]",
-	humanResourceDefinitions : "[]",
-	resourcePrivilegeDefinitions : "[]",
-	relationshipDefinitions : "[]",
-	classificationDefinitions : "[]",
-	valuedParameterDefinitions : "[]",
+	resourceClassifierImpls : "[]",
+	humanResourceImpls : "[]",
+	resourcePrivilegeImpls : "[]",
+	relationshipImpls : "[]",
+	classificationImpls : "[]",
+	valuedParameterImpls : "[]",
 	
 
 	construct: function(facade) {
@@ -240,6 +240,20 @@ ORYX.Plugins.BPMN2_0WD = {
 
 		});
 		
+		this.facade.offer({
+			'name': 'Verify',
+			'functionality': this.verify.bind(this),
+			'group': 'Export',
+			'icon': ORYX.PATH + 'images/door.png',
+			'description': 'Verify resource perspective',
+            dropDownGroupIcon: ORYX.PATH + "images/export2.png",
+			'index': 12,
+			'minShape': 0,
+			'maxShape': 0,
+			'isEnabled': 		this._isStencilSetExtensionLoaded.bind(this)
+
+		});
+		
 		if(this.facade.getCanvas().properties["oryx-rpim"] != "" && this.facade.getCanvas().properties["oryx-rpim"] != undefined){
 			this.importRPIM(this.facade.getCanvas().properties["oryx-rpim"]);		
 		}
@@ -247,6 +261,28 @@ ORYX.Plugins.BPMN2_0WD = {
 		if(this.facade.getCanvas().properties["oryx-rsm"] != "" && this.facade.getCanvas().properties["oryx-rsm"] != undefined){
 			this.importRSM(this.facade.getCanvas().properties["oryx-rsm"]);
 		}
+	},
+	
+	verify: function(){
+		if(this.facade.getCanvas().properties["oryx-rpim"] == "" || this.facade.getCanvas().properties["oryx-rpim"] == undefined){
+			alert("No RPIM was imported.");
+			return false;
+		}
+		
+		var objRPIM = this.getJSON(this.facade.getCanvas().properties["oryx-rpim"]);
+		
+		var arrTasks = this.getShapesByStencilId(this.facade.getJSON(), "Task");
+		for(var i=0; i<arrTasks.length; i++){
+			var task = arrTasks[i];
+			console.log(task.properties);
+			if(task.properties["tasktype"] == "User"){
+				if(task.properties["resources"] == ""){
+					alert("Task "+task.properties["name"].replace("\n", " ")+" does not have resources assigned");
+					return false;
+				}
+			}
+		}
+		
 	},
 	
 	tagBPLM: function(option) {
@@ -312,39 +348,39 @@ ORYX.Plugins.BPMN2_0WD = {
 		}
 	
 		if(items.roleOptions != undefined){
-			this.roleDefinitions = JSON.stringify(items.roleOptions);
+			this.roleImpls = JSON.stringify(items.roleOptions);
 		}
 		
 		if(items.taskPrivilegeOptions != undefined){
-			this.taskPrivilegeDefinitions = JSON.stringify(items.taskPrivilegeOptions);
+			this.taskPrivilegeImpls = JSON.stringify(items.taskPrivilegeOptions);
 		}
 		
 		if(items.resolutionConstraintOptions != undefined){
-			this.resolutionConstraintDefinitions  = JSON.stringify(items.resolutionConstraintOptions);
+			this.resolutionConstraintImpls  = JSON.stringify(items.resolutionConstraintOptions);
 		}
 		
 		if(items.resourceClassifierOptions != undefined){
-			this.resourceClassifierDefinitions  = JSON.stringify(items.resourceClassifierOptions);
+			this.resourceClassifierImpls  = JSON.stringify(items.resourceClassifierOptions);
 		}
 		
 		if(items.humanResourceOptions != undefined){
-			this.humanResourceDefinitions  = JSON.stringify(items.humanResourceOptions);
+			this.humanResourceImpls  = JSON.stringify(items.humanResourceOptions);
 		}
 		
 		if(items.resourcePrivilegeOptions != undefined){
-			this.resourcePrivilegeDefinitions  = JSON.stringify(items.resourcePrivilegeOptions);
+			this.resourcePrivilegeImpls  = JSON.stringify(items.resourcePrivilegeOptions);
 		}
 		
 		if(items.relationshipOptions != undefined){
-			this.relationshipDefinitions  = JSON.stringify(items.relationshipOptions);
+			this.relationshipImpls  = JSON.stringify(items.relationshipOptions);
 		}
 		
 		if(items.classificationOptions != undefined){
-			this.classificationDefinitions  = JSON.stringify(items.classificationOptions);
+			this.classificationImpls  = JSON.stringify(items.classificationOptions);
 		}
 		
 		if(items.valuedParameterOptions != undefined){
-			this.valuedParameterDefinitions  = JSON.stringify(items.valuedParameterOptions);
+			this.valuedParameterImpls  = JSON.stringify(items.valuedParameterOptions);
 		}
 	},
 	
@@ -367,31 +403,31 @@ ORYX.Plugins.BPMN2_0WD = {
 	getWDExtension : function(){
 		var extension = '{\"title\":\"RPIM Extension\",\"namespace\":\"http://www.cidisi.org/bpmn/extensions/rpim#\",\"description\":\"Extend the model with implementation definition elements.\",\"extends\":\"http://b3mn.org/stencilset/bpmn2.0#\",\"propertyPackages\" : [],\"stencils\":[], \"properties\" : [{\"roles\" : [\"Task\"], \"properties\" : [{\"id\":\"revokedPrivileges\",\"type\":\"Complex\",\"title\":\"RevokedPrivileges\",\"value\":\"\",\"description\":\"\",\"readonly\":false,\"optional\":true,\"popular\":true,\"complexItems\": [{\"id\":\"taskPrivilege\",\"name\":\"taskPrivilege\",\"type\":\"Choice\",\"value\":\"\",\"width\":100,\"optional\":true,##taskPrivileges##}]},{\"id\":\"resources\",\"type\":\"Complex\",\"title\":\"Resources\",\"value\":\"\",\"description\":\"\",\"readonly\":false,\"optional\":true,\"popular\":true,\"complexItems\": [{\"id\":\"name\",\"name\":\"Name\",\"type\":\"String\",\"value\":\"\",\"width\":100,\"optional\":true},{\"id\":\"documentation\",\"name\":\"Documentation\",\"type\":\"String\",\"value\":\"\",\"width\":100,\"optional\":true},{\"id\":\"resourceRef\",\"name\":\"ResourceRef\",\"type\":\"Choice\",\"value\":\"\",\"width\":100,\"optional\":true,##resources##},{\"id\":\"resourceParameterBinding\",\"name\":\"RresourceParameterBinding\",\"type\":\"Choice\",\"value\":\"\",\"width\":100,\"optional\":true,##resourceParameters##},{\"id\":\"resourceAssignmentExpression\",\"name\":\"ResourceAssignmentExpression\",\"type\":\"String\",\"value\":\"\",\"width\":100,\"optional\":true},{\"id\":\"resolutionConstraint\",\"name\":\"ResolutionConstraint\",\"type\":\"Choice\",\"value\":\"\",\"width\":100,\"optional\":true,##resolutionConstraints##},{\"id\":\"trigger\",\"name\":\"Trigger\",\"type\":\"String\",\"value\":\"\",\"width\":100,\"optional\":true},{\"id\":\"escalation\",\"name\":\"Escalation\",\"type\":\"String\",\"value\":\"\",\"width\":100,\"optional\":true},{\"id\":\"definition\",\"name\":\"Definition\",\"type\":\"Choice\",\"value\":\"\",\"width\":100,\"optional\":true,##definition_items##}]}]}]}';
 		
-		extension = extension.replace("##definition_items##", '"items":'+this.roleDefinitions);
-		extension = extension.replace("##taskPrivileges##", '"items":'+this.taskPrivilegeDefinitions);
+		extension = extension.replace("##definition_items##", '"items":'+this.roleImpls);
+		extension = extension.replace("##taskPrivileges##", '"items":'+this.taskPrivilegeImpls);
 		extension = extension.replace("##resources##", '"items":'+this.resources);
 		extension = extension.replace("##resourceParameters##", '"items":'+this.resourceParameters);
-		extension = extension.replace("##resolutionConstraints##", '"items":'+this.resolutionConstraintDefinitions);
+		extension = extension.replace("##resolutionConstraints##", '"items":'+this.resolutionConstraintImpls);
 		
 		extension = this.cleanExtension(extension);
 		return extension;
 	},
 	
 	getRSExtension : function(){
-		var extension = '{\"title\":\"BPMN 2.0 Work Distribution Extension\",\"namespace\":\"http://www.cidisi.org/bpmn/extensions/resourcestructure#\",\"description\":\"Extension to BPMN-REX with RPIM elements.\",\"extends\":\"http://b3mn.org/stencilset/bpmnrex#\",\"propertyPackages\" : [],\"stencils\":[], \"properties\" : [{\"roles\" : [\"resourceParameter\"],\"properties\":[{\"id\":\"definition\",\"type\":\"Choice\",\"title\":\"Definition\",\"value\":\"\",\"description\":\"RPIM definition\",\"readonly\":false,\"optional\":true,\"popular\":true,##resourceParameterDefinitions##}]},{\"roles\" : [\"resourceClassifier\"],properties : [{\"id\":\"definition\",\"name\":\"Definition\",\"type\":\"Choice\",\"value\":\"\",popular: true,\"width\":80,\"optional\":true,##resourceClassifierDefinitions##},{\"id\":\"privileges\",\"type\":\"Complex\",\"title\":\"Privileges\",\"value\":\"\",\"description\":\"Resource Privileges\",\"readonly\":false,\"optional\":true,\"popular\":true,\"complexItems\": [{\"id\":\"privilege\",\"name\":\"Privilege\",\"type\":\"Choice\",\"value\":\"\",\"width\":100,\"optional\":true,##resourceClassifierPrivilegeDefinitions##}]}]},{\"roles\" : [\"humanResource\"],properties : [{\"id\":\"definition\",\"name\":\"Definition\",\"type\":\"Choice\",\"value\":\"\",popular: true,\"width\":80,\"optional\":true,##humanResourceDefinitions##},{\"id\":\"privileges\",\"type\":\"Complex\",\"title\":\"Privileges\",\"value\":\"\",\"description\":\"Resource Privileges\",\"readonly\":false,\"optional\":true,\"popular\":true,\"complexItems\": [{\"id\":\"privilege\",\"name\":\"Privilege\",\"type\":\"Choice\",\"value\":\"\",\"width\":100,\"optional\":true,##humanResourcePrivilegeDefinitions##}]}]},{\"roles\" : [\"resourceReference\"],properties : [{\"id\":\"definition\",\"title\":\"Definition\",\"description\":\"Platform specific definition of the reference.\",\"popular\":true,\"type\":\"Choice\",\"value\":\"\",\"optional\":true,##relationshipDefinitions##}]},{\"roles\" : [\"resourceClassification\"],properties : [{\"id\":\"definition\",\"title\":\"Definition\",\"description\":\"Platform specific definition of the classification.\",\"popular\":true,\"type\":\"Choice\",\"value\":\"\",\"optional\":true,##classificationDefinitions##}]},{\"roles\" : [\"Diagram\"],properties : [{\"id\":\"rpim\",\"title\":\"RPIM\",\"description\":\"Implementation Definition Model\",\"type\":\"String\",\"value\":\"\",\"readonly\":false,\"optional\":true,\"popular\":true}]}]}';
+		var extension = '{\"title\":\"BPMN 2.0 Work Distribution Extension\",\"namespace\":\"http://www.cidisi.org/bpmn/extensions/resourcestructure#\",\"description\":\"Extension to BPMN-REX with RPIM elements.\",\"extends\":\"http://b3mn.org/stencilset/bpmnrex#\",\"propertyPackages\" : [],\"stencils\":[], \"properties\" : [{\"roles\" : [\"resourceParameter\"],\"properties\":[{\"id\":\"definition\",\"type\":\"Choice\",\"title\":\"Definition\",\"value\":\"\",\"description\":\"RPIM definition\",\"readonly\":false,\"optional\":true,\"popular\":true,##resourceParameterImpls##}]},{\"roles\" : [\"resourceClassifier\"],properties : [{\"id\":\"definition\",\"name\":\"Definition\",\"type\":\"Choice\",\"value\":\"\",popular: true,\"width\":80,\"optional\":true,##resourceClassifierImpls##},{\"id\":\"privileges\",\"type\":\"Complex\",\"title\":\"Privileges\",\"value\":\"\",\"description\":\"Resource Privileges\",\"readonly\":false,\"optional\":true,\"popular\":true,\"complexItems\": [{\"id\":\"privilege\",\"name\":\"Privilege\",\"type\":\"Choice\",\"value\":\"\",\"width\":100,\"optional\":true,##resourceClassifierPrivilegeImpls##}]}]},{\"roles\" : [\"humanResource\"],properties : [{\"id\":\"definition\",\"name\":\"Definition\",\"type\":\"Choice\",\"value\":\"\",popular: true,\"width\":80,\"optional\":true,##humanResourceImpls##},{\"id\":\"privileges\",\"type\":\"Complex\",\"title\":\"Privileges\",\"value\":\"\",\"description\":\"Resource Privileges\",\"readonly\":false,\"optional\":true,\"popular\":true,\"complexItems\": [{\"id\":\"privilege\",\"name\":\"Privilege\",\"type\":\"Choice\",\"value\":\"\",\"width\":100,\"optional\":true,##humanResourcePrivilegeImpls##}]}]},{\"roles\" : [\"resourceReference\"],properties : [{\"id\":\"definition\",\"title\":\"Definition\",\"description\":\"Platform specific definition of the reference.\",\"popular\":true,\"type\":\"Choice\",\"value\":\"\",\"optional\":true,##relationshipImpls##}]},{\"roles\" : [\"resourceClassification\"],properties : [{\"id\":\"definition\",\"title\":\"Definition\",\"description\":\"Platform specific definition of the classification.\",\"popular\":true,\"type\":\"Choice\",\"value\":\"\",\"optional\":true,##classificationImpls##}]},{\"roles\" : [\"Diagram\"],properties : [{\"id\":\"rpim\",\"title\":\"RPIM\",\"description\":\"Implementation Definition Model\",\"type\":\"String\",\"value\":\"\",\"readonly\":false,\"optional\":true,\"popular\":true}]}]}';
 		
-		extension = extension.replace("##resourceClassifierDefinitions##", '"items":'+this.resourceClassifierDefinitions);
-		extension = extension.replace("##resourceClassifierPrivilegeDefinitions##", '"items":'+this.resourcePrivilegeDefinitions);
+		extension = extension.replace("##resourceClassifierImpls##", '"items":'+this.resourceClassifierImpls);
+		extension = extension.replace("##resourceClassifierPrivilegeImpls##", '"items":'+this.resourcePrivilegeImpls);
 		
-		extension = extension.replace("##humanResourceDefinitions##", '"items":'+this.humanResourceDefinitions);
-		extension = extension.replace("##humanResourcePrivilegeDefinitions##", '"items":'+this.resourcePrivilegeDefinitions);
+		extension = extension.replace("##humanResourceImpls##", '"items":'+this.humanResourceImpls);
+		extension = extension.replace("##humanResourcePrivilegeImpls##", '"items":'+this.resourcePrivilegeImpls);
 		
-		extension = extension.replace("##resourceParameterDefinitions##", '"items":'+this.valuedParameterDefinitions);
+		extension = extension.replace("##resourceParameterImpls##", '"items":'+this.valuedParameterImpls);
 		
 		
 		
-		extension = extension.replace("##relationshipDefinitions##", '"items":'+this.relationshipDefinitions);
-		extension = extension.replace("##classificationDefinitions##", '"items":'+this.classificationDefinitions);
+		extension = extension.replace("##relationshipImpls##", '"items":'+this.relationshipImpls);
+		extension = extension.replace("##classificationImpls##", '"items":'+this.classificationImpls);
 		
 		extension = this.cleanExtension(extension);
 		
