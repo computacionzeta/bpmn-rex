@@ -227,8 +227,8 @@ ORYX.Plugins.BPMN2_0WD = {
 		});
 		
 		this.facade.offer({
-			'name': 'Validate Control Flow',
-			'functionality': this.validateControlFlow.bind(this),
+			'name': 'Validate',
+			'functionality': this.validate.bind(this),
 			'group': 'Export',
 			'icon': ORYX.PATH + 'images/door.png',
 			'description': 'Validate the control flow perspective',
@@ -266,23 +266,55 @@ ORYX.Plugins.BPMN2_0WD = {
 	verify: function(){
 		if(this.facade.getCanvas().properties["oryx-rpim"] == "" || this.facade.getCanvas().properties["oryx-rpim"] == undefined){
 			alert("No RPIM was imported.");
-			return false;
+			return;
 		}
 		
 		var objRPIM = this.getJSON(this.facade.getCanvas().properties["oryx-rpim"]);
+		var roles = this.getShapesByStencilId(objRPIM, "roleImpl");
+		console.log(roles);
 		
 		var arrTasks = this.getShapesByStencilId(this.facade.getJSON(), "Task");
 		for(var i=0; i<arrTasks.length; i++){
 			var task = arrTasks[i];
-			console.log(task.properties);
 			if(task.properties["tasktype"] == "User"){
 				if(task.properties["resources"] == ""){
 					alert("Task "+task.properties["name"].replace("\n", " ")+" does not have resources assigned");
-					return false;
+					return;
+				}else{
+					for(var j=0; j<task.properties["resources"].totalCount; j++){
+						var resource = task.properties["resources"].items[j];
+						if(resource.implementation == ""){
+							alert("Resource "+resource.name+" of task "+task.properties["name"].replace("\n", " ")+" does not have implementation defined");
+							return;
+						}
+						if(!this.checkMandatoryRoles(task, roles)){
+							return;
+						}
+					}
 				}
 			}
 		}
 		
+	},
+	
+	checkMandatoryRoles: function(task, roles){
+		for(var i=0; i<roles.length; i++){
+			var r = roles[i];
+			if(r.properties["required"] == "true"){
+				var found = false;
+				for(var j=0;j<task.properties["resources"].totalCount; j++){
+					var resource = task.properties["resources"].items[j];
+					if(resource.implementation == r.properties["name"]){
+						found = true;
+					}
+				}
+				if(!found){
+					alert("Mandatory role "+r.properties["name"]+" is not defined for task "+task.properties["name"]);
+					return false;
+				}
+			}
+		}
+		return true;
 	},
 	
 	tagBPLM: function(option) {
@@ -401,9 +433,9 @@ ORYX.Plugins.BPMN2_0WD = {
 	},
 	
 	getWDExtension : function(){
-		var extension = '{\"title\":\"RPIM Extension\",\"namespace\":\"http://www.cidisi.org/bpmn/extensions/rpim#\",\"description\":\"Extend the model with implementation definition elements.\",\"extends\":\"http://b3mn.org/stencilset/bpmn2.0#\",\"propertyPackages\" : [],\"stencils\":[], \"properties\" : [{\"roles\" : [\"Task\"], \"properties\" : [{\"id\":\"revokedPrivileges\",\"type\":\"Complex\",\"title\":\"RevokedPrivileges\",\"value\":\"\",\"description\":\"\",\"readonly\":false,\"optional\":true,\"popular\":true,\"complexItems\": [{\"id\":\"taskPrivilege\",\"name\":\"taskPrivilege\",\"type\":\"Choice\",\"value\":\"\",\"width\":100,\"optional\":true,##taskPrivileges##}]},{\"id\":\"resources\",\"type\":\"Complex\",\"title\":\"Resources\",\"value\":\"\",\"description\":\"\",\"readonly\":false,\"optional\":true,\"popular\":true,\"complexItems\": [{\"id\":\"name\",\"name\":\"Name\",\"type\":\"String\",\"value\":\"\",\"width\":100,\"optional\":true},{\"id\":\"documentation\",\"name\":\"Documentation\",\"type\":\"String\",\"value\":\"\",\"width\":100,\"optional\":true},{\"id\":\"resourceRef\",\"name\":\"ResourceRef\",\"type\":\"Choice\",\"value\":\"\",\"width\":100,\"optional\":true,##resources##},{\"id\":\"resourceParameterBinding\",\"name\":\"RresourceParameterBinding\",\"type\":\"Choice\",\"value\":\"\",\"width\":100,\"optional\":true,##resourceParameters##},{\"id\":\"resourceAssignmentExpression\",\"name\":\"ResourceAssignmentExpression\",\"type\":\"String\",\"value\":\"\",\"width\":100,\"optional\":true},{\"id\":\"resolutionConstraint\",\"name\":\"ResolutionConstraint\",\"type\":\"Choice\",\"value\":\"\",\"width\":100,\"optional\":true,##resolutionConstraints##},{\"id\":\"trigger\",\"name\":\"Trigger\",\"type\":\"String\",\"value\":\"\",\"width\":100,\"optional\":true},{\"id\":\"escalation\",\"name\":\"Escalation\",\"type\":\"String\",\"value\":\"\",\"width\":100,\"optional\":true},{\"id\":\"definition\",\"name\":\"Definition\",\"type\":\"Choice\",\"value\":\"\",\"width\":100,\"optional\":true,##definition_items##}]}]}]}';
+		var extension = '{\"title\":\"RPIM Extension\",\"namespace\":\"http://www.cidisi.org/bpmn/extensions/rpim#\",\"description\":\"Extend the model with implementation definition elements.\",\"extends\":\"http://b3mn.org/stencilset/bpmn2.0#\",\"propertyPackages\" : [],\"stencils\":[], \"properties\" : [{\"roles\" : [\"Task\"], \"properties\" : [{\"id\":\"revokedPrivileges\",\"type\":\"Complex\",\"title\":\"RevokedPrivileges\",\"value\":\"\",\"description\":\"\",\"readonly\":false,\"optional\":true,\"popular\":true,\"complexItems\": [{\"id\":\"taskPrivilege\",\"name\":\"taskPrivilege\",\"type\":\"Choice\",\"value\":\"\",\"width\":100,\"optional\":true,##taskPrivileges##}]},{\"id\":\"resources\",\"type\":\"Complex\",\"title\":\"Resources\",\"value\":\"\",\"description\":\"\",\"readonly\":false,\"optional\":true,\"popular\":true,\"complexItems\": [{\"id\":\"name\",\"name\":\"Name\",\"type\":\"String\",\"value\":\"\",\"width\":100,\"optional\":true},{\"id\":\"documentation\",\"name\":\"Documentation\",\"type\":\"String\",\"value\":\"\",\"width\":100,\"optional\":true},{\"id\":\"resourceRef\",\"name\":\"ResourceRef\",\"type\":\"Choice\",\"value\":\"\",\"width\":100,\"optional\":true,##resources##},{\"id\":\"resourceParameterBinding\",\"name\":\"RresourceParameterBinding\",\"type\":\"Choice\",\"value\":\"\",\"width\":100,\"optional\":true,##resourceParameters##},{\"id\":\"resourceAssignmentExpression\",\"name\":\"ResourceAssignmentExpression\",\"type\":\"String\",\"value\":\"\",\"width\":100,\"optional\":true},{\"id\":\"resolutionConstraint\",\"name\":\"ResolutionConstraint\",\"type\":\"Choice\",\"value\":\"\",\"width\":100,\"optional\":true,##resolutionConstraints##},{\"id\":\"trigger\",\"name\":\"Trigger\",\"type\":\"String\",\"value\":\"\",\"width\":100,\"optional\":true},{\"id\":\"escalation\",\"name\":\"Escalation\",\"type\":\"String\",\"value\":\"\",\"width\":100,\"optional\":true},{\"id\":\"implementation\",\"name\":\"Implementation\",\"type\":\"Choice\",\"value\":\"\",\"width\":100,\"optional\":true,##implementation_items##}]}]}]}';
 		
-		extension = extension.replace("##definition_items##", '"items":'+this.roleImpls);
+		extension = extension.replace("##implementation_items##", '"items":'+this.roleImpls);
 		extension = extension.replace("##taskPrivileges##", '"items":'+this.taskPrivilegeImpls);
 		extension = extension.replace("##resources##", '"items":'+this.resources);
 		extension = extension.replace("##resourceParameters##", '"items":'+this.resourceParameters);
@@ -1035,7 +1067,7 @@ ORYX.Plugins.BPMN2_0WD = {
 		this.facade.importJSON(objJSON);
 	},
 	
-	validateControlFlow : function(){
+	validate : function(){
 		var bplm = this.facade.getCanvas().properties['oryx-bplm'];
 		var piepm = this.facade.getCanvas().properties['oryx-piepm'];
 		
