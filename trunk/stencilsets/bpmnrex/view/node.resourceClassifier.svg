@@ -35,7 +35,7 @@
 	<text 
 	   oryx:anchors="top left right"
 	   oryx:resize="horizontal"
-	   id="definitionText" x="30" y="-8" oryx:align="bottom left"></text> 
+	   id="implementationText" x="30" y="-8" oryx:align="bottom left"></text> 
 	
 	<text 
 	   oryx:anchors="top left right"
