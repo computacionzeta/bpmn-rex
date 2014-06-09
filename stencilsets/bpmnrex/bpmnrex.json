@@ -34,6 +34,18 @@
 					"length":	"",
 					"refToView":"nameText",
 					"wrapLines":false
+				},
+				{
+					"id":		"implementation",
+					"type":		"String",
+					"title":	"Implementation",
+					"value":	"",
+					"description":"",
+					"readonly":	false,
+					"optional":	true,
+					"length":	"",
+					"refToView":"implementationText",
+					"wrapLines":false
 				}
 			]
 		},
@@ -116,6 +128,18 @@
 					"optional":	false,
 					"length":	"",
 					"refToView":"nameText",
+					"wrapLines":false
+				},
+				{
+					"id":		"implementation",
+					"type":		"String",
+					"title":	"Implementation",
+					"value":	"",
+					"description":"",
+					"readonly":	false,
+					"optional":	true,
+					"length":	"",
+					"refToView":"implementationText",
 					"wrapLines":false
 				}
 			]
