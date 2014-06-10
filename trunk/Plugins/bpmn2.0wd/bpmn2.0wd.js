@@ -298,9 +298,10 @@ ORYX.Plugins.BPMN2_0WD = {
 							return;
 						}else{
 							if(resource.resourceRef != "" && resource.resourceRef != undefined){
+								//Check resourceRef
 								resourceId = "oryx_"+resource.resourceRef.substr(resource.resourceRef.indexOf(" | ") + 3, resource.resourceRef.length);
-								console.log(resourceId);
 								var objResource = this.getShapeById(objRSM, resourceId);
+								console.log(objResource.properties);
 								if(objResource.properties["implementation"] == "" || objResource.properties["implementation"] == undefined){
 									alert("Resource "+objResource.properties["name"]+" assigned to role "+resource.name+" of task "+task.properties["name"].replace("\n", " ")+" does not have an implementation.");
 									return;
@@ -311,7 +312,15 @@ ORYX.Plugins.BPMN2_0WD = {
 										alert("Resource "+objResource.properties["name"]+" referenced by role "+resource.name+" of task "+task.properties["name"].replace("\n", " ")+" is not referenceable.");
 									}
 								}
-								console.log(objResource);
+								//Check resource parameter
+								resourceParameterName = resource.resourceParameterBinding;
+								var objParameter = this.getShapesByName(objResource, resourceParameterName).pop();
+								console.log(objParameter);
+								if(objParameter.properties["implementation"] == "" || objParameter.properties["implementation"] == undefined){
+									alert("Parameter "+resourceParameterName+" of resource "+objResource.properties["name"]+" assigned to role "+resource.name+" of task "+task.properties["name"].replace("\n", " ")+" does not have an implementation.");
+									return;
+								}
+								
 							}
 						}
 						if(resource.implementation == ""){
