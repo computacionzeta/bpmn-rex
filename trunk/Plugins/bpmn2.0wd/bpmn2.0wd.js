@@ -59,7 +59,7 @@ ORYX.Plugins.BPMN2_0WD = {
 	resourcePrivilegeImpls : "[]",
 	relationshipImpls : "[]",
 	classificationImpls : "[]",
-	valuedParameterImpls : "[]",
+	parameterTypeImpls : "[]",
 	
 
 	construct: function(facade) {
@@ -452,8 +452,8 @@ ORYX.Plugins.BPMN2_0WD = {
 			this.classificationImpls  = JSON.stringify(items.classificationOptions);
 		}
 		
-		if(items.valuedParameterOptions != undefined){
-			this.valuedParameterImpls  = JSON.stringify(items.valuedParameterOptions);
+		if(items.parameterTypeOptions != undefined){
+			this.parameterTypeImpls  = JSON.stringify(items.parameterTypeOptions);
 		}
 	},
 	
@@ -495,7 +495,7 @@ ORYX.Plugins.BPMN2_0WD = {
 		extension = extension.replace("##humanResourceImpls##", '"items":'+this.humanResourceImpls);
 		extension = extension.replace("##humanResourcePrivilegeImpls##", '"items":'+this.resourcePrivilegeImpls);
 		
-		extension = extension.replace("##resourceParameterImpls##", '"items":'+this.valuedParameterImpls);
+		extension = extension.replace("##resourceParameterImpls##", '"items":'+this.parameterTypeImpls);
 		
 		
 		

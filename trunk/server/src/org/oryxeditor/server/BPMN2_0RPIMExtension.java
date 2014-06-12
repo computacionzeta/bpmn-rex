@@ -81,7 +81,7 @@ public class BPMN2_0RPIMExtension extends HttpServlet {
 			impls.put("relationshipOptions", this.getRelationshipOptions());
 			impls.put("resourcePrivilegeOptions", this.getResourcePrivilegeOptions());
 			impls.put("classificationOptions", this.getClassificationOptions());
-			impls.put("valuedParameterOptions", this.getValuedParameterOptions());
+			impls.put("parameterTypeOptions", this.getParameterTypeOptions());
 			
 			impls.put("roleOptions", this.getRoleOptions());
 			impls.put("taskPrivilegeOptions", this.getTaskPrivilegeOptions());
@@ -304,22 +304,22 @@ public class BPMN2_0RPIMExtension extends HttpServlet {
 		return resourcePrivilegeOptions;
 	}
 	
-	public JSONArray getValuedParameterOptions(){
-		JSONArray valuedParameterOptions = new JSONArray();
+	public JSONArray getParameterTypeOptions(){
+		JSONArray parameterTypeOptions = new JSONArray();
 		
 		try {			
-			JSONArray valuedParameterStencils = this.getResourcesByStencilId(this.idm, "valuedParameterImpl");
+			JSONArray parameterTypeStencils = this.getResourcesByStencilId(this.idm, "parameterTypeImpl");
 			
-			for(int i=0; i<valuedParameterStencils.length(); i++){
+			for(int i=0; i<parameterTypeStencils.length(); i++){
 				JSONObject option = new JSONObject();
-				JSONObject impl = valuedParameterStencils.getJSONObject(i);
+				JSONObject impl = parameterTypeStencils.getJSONObject(i);
 				
 				option.put("id", "r"+i);
 				option.put("title", impl.getJSONObject("properties").getString("name"));
 				option.put("value", impl.getJSONObject("properties").getString("name"));
 				option.put("refToView", "");
 				
-				valuedParameterOptions.put(option);
+				parameterTypeOptions.put(option);
 			}
 			
 		} catch (JSONException e) {
@@ -327,7 +327,7 @@ public class BPMN2_0RPIMExtension extends HttpServlet {
 			e.printStackTrace();
 		}
 		
-		return valuedParameterOptions;
+		return parameterTypeOptions;
 	}
 	
 	private JSONArray getResourcesByStencilId(JSONObject jo, String stencilId){
