@@ -1,0 +1,1 @@
+A tool based on Oryx to support a framework and method to define the resource perspective of business processes supported by PAISs based on WfMSs.
